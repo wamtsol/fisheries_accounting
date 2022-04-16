@@ -87,59 +87,143 @@ table {
     float: left;
     list-style: none;
 }
+.container{
+    width: 100%;
+    max-width: 986px;
+    margin: 0 auto;
+}
 .signature td{ border: none;
 padding: 0;
 height: 100px;
 vertical-align: bottom;}
-.logo img{ width:200px;}
-</style>
-<div class="voucher">
-<div class="voucher_head clearfix">
-    <div class="logo"><?php $admin_logo=get_config("admin_logo"); if(empty($admin_logo)) echo $site_title; else { ?><img src="<?php echo $file_upload_root;?>config/<?php echo $admin_logo?>" /><?php }?></div>
-    <h2>Expense Voucher</h2>
-</div>
-<div class="voucher_detail clear">
-	<div class="detail_left">
-    	<p>VOUCHER NO: <?php echo $r["id"] ?></p>
-        <p>DEBIT ACCOUNT: <?php echo get_field( unslash($r["expense_category_id"]), "expense_category", "title" ); ?></p>
-        <p>PROJECT: <?php echo get_field( unslash($r["project_id"]), "project", "title" ); ?></p>
-    </div>
-    <div class="detail_right">
-    	<p>DATE: <?php echo datetime_convert($r["datetime_added"]); ?></p>
-    </div>
-</div>
-<table width="100%" cellspacing="0" cellpadding="0">
-<thead>
-<tr>
-    <th width="5%" align="center">S.no</th>
-    <th width="20%" align="left">Paid By</th>
-    <th width="15%" align="right">Amount</th>
-    <th width="60%" align="left">Details</th>
-</tr>
-</thead>
-<tbody>
-<?php
-if( numrows( $rs ) > 0 ) {
-	$sn = 1;
-	?>
-	<tr>
-		<td align="center"><?php echo $sn++?></td>
-		<td><?php echo get_field( unslash($r["account_id"]), "account", "title" ); ?></td>
-		<td align="right"><?php echo curr_format(unslash($r["amount"])); ?></td>
-		<td><?php echo unslash($r["details"]); ?></td>
-	</tr>
-	<?php
+.logo img{ }
+.header-bottom {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
-?>
-</tbody>
-</table>
-<div class="signature">
-	<ul>
-    	<li>Prepared By:</li>
-        <li style="text-align:center;">Authorised By:</li>
-        <li style="text-align:right">Received By:</li>
-    </ul>
+.logo-text {
+    text-align: center;
+}
+.logo-text h2 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 300;
+}
+.logo-text h1 {
+    margin: 0;
+    font-size: 22px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+.logo-text h3 {
+    margin: 0;
+    font-size: 22px;
+    text-transform: capitalize;
+    line-height: 24px;
+}
+.logo-text {
+    text-align: center;
+}
+.logo-text h2 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 300;
+}
+</style>
+<div id="header">
+    <div class="container">
+        <div class="header-bottom">
+            <div class="logo">
+                <img src="images/main-logo.png" />
+            </div>
+            <div class="logo-text">
+                <h2>Bank Payment Voucher</h2>
+                <h1>PMU-BBSHRRDB-Phase-XII</h1>
+                <h3>(Public Sector Fisheries wing)<br> livestock & fisheries department</h3>
+            </div>
+            <div class="logo">
+                <img src="images/second-logo.png" />
+            </div>
+        </div>
+    </div>
 </div>
-</div>
+    <table border="1" width="1000px" cellpadding="10" cellspacing="10">
+        <tr>                   
+          <td>Voucher No#</td>
+          <td>Cheque#</td>
+          <td>Branch Name:</td>
+          <td>NBP wapda colony Br Hyd</td>
+          <td>Date:</td>
+        </tr>
+        <tr>                   
+          <td colspan="6">Payee: M/s Haniya Enterprises.</td>
+        </tr>
+        <tr>                   
+          <td colspan="12">Payment of invoice No 0366 Dated: 24-01-2022 amounting to Rs: 90,000/= on account of payment of refreshment Boxes printed
+          in four color for disbursing in trainees of BBSHRRDB Phase-X|| Livestock & Fisheries Department (Fisheries Wring) Hyderabad.</td>
+        </tr>
+        <tr>                   
+          <th colspan="2">Account Description</th>
+          <th>Account Code</th>
+          <th>Debit</th>
+          <th>Credit</th>
+        </tr>
+        <tr>                   
+          <td colspan="2">Head of Account: Misc Expenses (Training Cost)</td>
+          <td>A03821</td>
+          <td>Rs: 90,000/=</td>
+          <td></td>
+        </tr>
+        <tr>                   
+          <td colspan="2">Item detail: Payment of refreshment Boxes <br>printed in four color for disbursing in <br>trainees in BBSHRRDB Phase-X|| Livestock<br> &
+          Fisheries Department (Fisheries wing) Hyderabad.
+          </td>
+          <td rowspan="1"></td>
+          <td rowspan="1"></td>
+          <td rowspan="1"></td>
+        </tr>
+        <tr>                   
+          <td colspan="2">Income Tax Payable (Deduction):</td>
+          <td></td>
+          <td></td>
+          <td>Rs: 4,050/=</td>
+        </tr>
+        <tr>                   
+          <td colspan="2">General sales Tax Payable (Deduction):</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>                   
+          <td colspan="2">Other Sales Tax Payable (Deduction): </td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>                   
+          <td colspan="2">Bank:</td>
+          <td></td>
+          <td></td>
+          <td>Rs: 85,950/=</td>
+        </tr>
+        <tr>                   
+          <th colspan="2">Total</th>
+          <td></td>
+          <th>Rs: 90,000/=</th>
+          <th>Rs: 90,000/=</th>
+        </tr>
+        <tr>                   
+          <td colspan="12">In Words: Amount of Cheque Rupees: Eighty Five Thousand Nine Hundred Fifty only.</td>
+        </tr>
+        <tr>                   
+          <th rowspan="6">Prepared by <br> Accounts Officer <br> BBSHRRDB</th>
+          <th rowspan="6">Checked by <br> Dy. Project Director <br> BBSHRRDB</th>
+          <th rowspan="6">Approved by <br> Project Director <br>BBSHRRDB</th>
+        </tr>
+    </table>
 <?php
 die;

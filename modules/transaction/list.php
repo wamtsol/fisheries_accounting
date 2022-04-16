@@ -5,16 +5,17 @@ if(!defined("APP_START")) die("No Direct Access");
 	<h1 class="title">Transaction</h1>
   	<ol class="breadcrumb">
     	<li class="active">
+            All Transaction
         	<?php
-            if( !isset( $_SESSION["transaction"]["list"]["project_id"] ) || $_SESSION["transaction"]["list"]["project_id"] == "" ) {
-				echo "All Transactions";
-			}
-			else if( $_SESSION["transaction"]["list"]["project_id"] == "0" ) {
-				echo "Administrative Transaction";
-			}
-			else {
-				echo "Project: ".get_field( $_SESSION["transaction"]["list"]["project_id"], "project" );
-			}
+            // if( !isset( $_SESSION["transaction"]["list"]["project_id"] ) || $_SESSION["transaction"]["list"]["project_id"] == "" ) {
+			// 	echo "All Transactions";
+			// }
+			// else if( $_SESSION["transaction"]["list"]["project_id"] == "0" ) {
+			// 	echo "Administrative Transaction";
+			// }
+			// else {
+			// 	echo "Project: ".get_field( $_SESSION["transaction"]["list"]["project_id"], "project" );
+			// }
 			?>
        	</li>
   	</ol>
@@ -30,24 +31,7 @@ if(!defined("APP_START")) die("No Direct Access");
     <li class="col-xs-12 col-lg-12 col-sm-12">
     	<div>
         	<form class="form-horizontal" action="" method="get">
-            	<div class="col-sm-2 margin-btm-5">
-                	<select name="project_id" id="project_id" class="custom_select">
-                        <?php if($_SESSION["logged_in_admin"]["admin_type_id"]==1){?>
-                        <option value=""<?php echo ($project_id=="")? " selected":"";?>>All Transactions</option>
-                        <option value="0"<?php echo ($project_id=="0")? " selected":"";?>>Administrative Transaction</option>
-                        <?php }?>
-                        <?php
-                            $res=doquery("select a.* from project a left join admin_2_project b on a.id = b.project_id where status=1 ".$adminId." order by title", $dblink);
-                            if(numrows($res)>=0){
-                                while($rec=dofetch($res)){
-                                ?>
-                                <option value="<?php echo $rec["id"]?>" <?php echo($project_id==$rec["id"])?"selected":"";?>><?php echo unslash($rec["title"])?></option>
-                            	<?php
-                                }
-                            }
-                        ?>
-                    </select>
-                </div>
+            	
                 <div class="col-sm-2 margin-btm-5">
                 	<select name="account_id" id="account_id" class="custom_select">
                         <option value=""<?php echo ($account_id=="")? " selected":"";?>>To All Accounts</option>

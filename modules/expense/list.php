@@ -11,26 +11,26 @@ if(!defined("APP_START")) die("No Direct Access");
   	<ol class="breadcrumb">
 
     	<li class="active">
-
+            All Expenses
         	<?php
 
-            if( !isset( $_SESSION["expense"]["list"]["project_id"] ) || $_SESSION["expense"]["list"]["project_id"] == "" ) {
+            // if( !isset( $_SESSION["expense"]["list"]["project_id"] ) || $_SESSION["expense"]["list"]["project_id"] == "" ) {
 
-				echo "All Expenses";
+			// 	echo "All Expenses";
 
-			}
+			// }
 
-			else if( $_SESSION["expense"]["list"]["project_id"] == "0" ) {
+			// else if( $_SESSION["expense"]["list"]["project_id"] == "0" ) {
 
-				echo "Administrative Expenses";
+			// 	echo "Administrative Expenses";
 
-			}
+			// }
 
-			else {
+			// else {
 
-				echo "Project: ".get_field( $_SESSION["expense"]["list"]["project_id"], "project" );
+			// 	echo "Project: ".get_field( $_SESSION["expense"]["list"]["project_id"], "project" );
 
-			}
+			// }
 
 			?>
 
@@ -61,38 +61,6 @@ if(!defined("APP_START")) die("No Direct Access");
     	<div>
 
         	<form class="form-horizontal" action="" method="get">
-
-                <div class="col-sm-2 margin-btm-5">
-
-                	<select name="project_id" id="project_id" class="custom_select">
-                        <?php if($_SESSION["logged_in_admin"]["admin_type_id"]==1){?>
-                        <option value=""<?php echo ($project_id=="")? " selected":"";?>>All Expenses</option>
-
-                        <option value="0"<?php echo ($project_id=="0")? " selected":"";?>>Administrative Expenses</option>
-                        <?php }?>
-                        <?php
-
-                            $res=doquery("select a.* from project a left join admin_2_project b on a.id = b.project_id where status=1 ".$adminId." order by title", $dblink);
-
-                            if(numrows($res)>=0){
-
-                                while($rec=dofetch($res)){
-
-                                ?>
-
-                                <option value="<?php echo $rec["id"]?>" <?php echo($project_id==$rec["id"])?"selected":"";?>><?php echo unslash($rec["title"])?></option>
-
-                            	<?php
-
-                                }
-
-                            }	
-
-                        ?>
-
-                    </select>
-
-                </div>
 
                 <div class="col-sm-2 ">
 
@@ -198,9 +166,7 @@ if(!defined("APP_START")) die("No Direct Access");
 
                     <label for="select_all"></label></div></th>
 
-                <th width="12%">Date/Time</th>
-
-                <th width="10%">Project</th>
+                <th width="10%">Date/Time</th>
 
                 <th width="13%">Expense Category</th>
 
@@ -208,7 +174,7 @@ if(!defined("APP_START")) die("No Direct Access");
 
                 <th width="20%">Details</th>
 
-                <th width="8%">Amount</th>
+                <th width="8%" class="text-right">Amount</th>
 
                 <th width="10%">Cheque Number</th>
 
@@ -216,7 +182,7 @@ if(!defined("APP_START")) die("No Direct Access");
 
                 <th width="5%" class="text-center">Status</th>
 
-                <th width="10%" class="text-center">Actions</th>
+                <th width="12%" class="text-center">Actions</th>
 
             </tr>
 
@@ -254,15 +220,13 @@ if(!defined("APP_START")) die("No Direct Access");
 
                         <td><?php echo datetime_convert($r["datetime_added"]); ?></td>
 
-                        <td><?php echo get_field( unslash($r["project_id"]), "project", "title" ); ?></td>
-
                         <td><?php echo get_field( unslash($r["expense_category_id"]), "expense_category", "title" ); ?></td>
 
                         <td><?php echo get_field( unslash($r["account_id"]), "account", "title" ); ?></td>
 
                         <td><?php echo unslash($r["details"]); ?></td>
 
-                        <td><?php echo curr_format(unslash($r["amount"])); ?></td>
+                        <td class="text-right"><?php echo curr_format(unslash($r["amount"])); ?></td>
 
                         <td><?php echo unslash($r["cheque_number"]); ?></td>
 
@@ -322,9 +286,9 @@ if(!defined("APP_START")) die("No Direct Access");
 
                 <tr>
 
-                    <th colspan="7" class="text-right">Total:</th>
+                    <th colspan="6" class="text-right">Total:</th>
 
-                    <th><?php echo curr_format($total_amount);?></th>
+                    <th class="text-right"><?php echo curr_format($total_amount);?></th>
 
                     <th colspan="4"></th>
 

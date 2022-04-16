@@ -9,7 +9,6 @@ else{
 	$username="";
 	$email="";
 	$password="";
-	$monthly_salary="";
     $project_ids=array();
 }
 ?>
@@ -48,7 +47,7 @@ else{
             </div>
         </div>
     </div>
-    <div class="form-group">
+    <!-- <div class="form-group">
         <div class="row">
             <div class="col-sm-2 control-label no-padding-right">
                 <label class="form-label" for="project_id">Project </label>
@@ -69,7 +68,7 @@ else{
                 </select>
             </div>
         </div>
-    </div>
+    </div> -->
   	<div class="form-group">
     	<div class="row">
         	<div class="col-sm-2 control-label">
@@ -97,16 +96,6 @@ else{
             </div>
             <div class="col-sm-10">
                 <input type="email" title="Enter Email" value="<?php echo $email; ?>" name="email" id="email" class="form-control">
-            </div>
-        </div>
-  	</div>
-    <div class="form-group">
-    	<div class="row">
-        	<div class="col-sm-2 control-label">
-            	<label class="form-label" for="monthly_salary">Monthly Salary</label>
-            </div>
-            <div class="col-sm-10">
-                <input type="text" title="Enter Salary" value="<?php echo $monthly_salary; ?>" name="monthly_salary" id="monthly_salary" class="form-control">
             </div>
         </div>
   	</div>

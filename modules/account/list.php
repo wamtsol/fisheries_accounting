@@ -51,16 +51,17 @@ if(!empty($q)){
                 <th class="text-center" width="5%"><div class="checkbox checkbox-primary">
                     <input type="checkbox" id="select_all" value="0" title="Select All Records">
                     <label for="select_all"></label></div></th>
-                <th width="30%">Title</th>
-                <th width="20%">Account Type</th>
-                <th width="20%" class="text-right">Balance</th>
-                <th width="10%" class="text-center">Status</th>
+                <th width="25%">Parent</th>
+                <th>Title</th>
+                <th width="15%">Account Type</th>
+                <th width="10%" class="text-right">Balance</th>
+                <th width="8%" class="text-center">Status</th>
                 <th width="10%" class="text-center">Actions</th>
             </tr>
         </thead>
         <tbody>
             <?php 
-            $sql="select * from account where 1 $extra order by type, title";
+            $sql="select * from account where 1 $extra order by parent_id";
             $rs=show_page($rows, $pageNum, $sql);
             if(numrows($rs)>0){
                 $sn=1;
@@ -72,6 +73,7 @@ if(!empty($q)){
                             <input type="checkbox" name="id[]" id="<?php echo "rec_".$sn?>"  value="<?php echo $r["id"]?>" title="Select Record" />
                             <label for="<?php echo "rec_".$sn?>"></label></div>
                         </td>
+                        <td><?php echo get_field($r["parent_id"], "account", "title"); ?></td>
                         <td><?php echo unslash($r["title"]); ?></td>
                         <td><?php echo getAccountType(unslash($r["type"])); ?></td>
                         <td class="text-right"><?php echo get_account_balance(unslash($r["id"])); ?></td>
@@ -101,7 +103,7 @@ if(!empty($q)){
                 }
                 ?>
                 <tr>
-                    <td colspan="4" class="actions">
+                    <td colspan="5" class="actions">
                         <select name="bulk_action" class="" id="bulk_action" title="Choose Action">
                             <option value="null">Bulk Action</option>
                             <option value="delete">Delete</option>
@@ -117,7 +119,7 @@ if(!empty($q)){
             else{	
                 ?>
                 <tr>
-                    <td colspan="7"  class="no-record">No Result Found</td>
+                    <td colspan="8"  class="no-record">No Result Found</td>
                 </tr>
                 <?php
             }

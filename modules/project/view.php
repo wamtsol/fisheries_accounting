@@ -32,9 +32,8 @@ if(!defined("APP_START")) die("No Direct Access");
                 <th>Expenses</th>
             	<th class="text-right"><?php
                 	$sum = dofetch( doquery( "select sum(amount) as sum from expense where project_id = '".$id."' and status = 1", $dblink ) );
-                    $sum_salary = dofetch( doquery( "select sum(amount) as sum from employee_salary where project_id = '".$id."' and status = 1", $dblink ) );
-                    $project_balance -= $sum[ "sum" ]+$sum_salary[ "sum" ];
-					echo curr_format( $sum[ "sum" ]+$sum_salary[ "sum" ] );
+                    $project_balance -= $sum[ "sum" ];
+					echo curr_format( $sum[ "sum" ] );
 				?></th>
             </tr>
             <?php
@@ -50,19 +49,6 @@ if(!defined("APP_START")) die("No Direct Access");
 				}
 			}
 			?>
-            <?php
-            $rs = doquery( "select sum(amount) as sum, ifnull( name, 'Unknown' ) as employee from employee_salary a left join employee b on a.employee_id = b.id where project_id = '".$id."' and a.status = 1 group by employee_id", $dblink );
-            if( numrows( $rs ) > 0 ) {
-                while( $r = dofetch( $rs ) ) {
-                    ?>
-                    <tr>
-                        <td><?php echo unslash( $r[ "employee" ] )?> (Salary):</td>
-                        <th class="text-right"><?php echo curr_format( $r[ "sum" ] )?></th>
-                    </tr>
-                    <?php
-                }
-            }
-            ?>
             <tr>
                 <th colspan="2">Accounts</th>
             </tr>

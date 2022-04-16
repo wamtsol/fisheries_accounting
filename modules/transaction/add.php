@@ -33,26 +33,26 @@ else{
   	<ol class="breadcrumb">
 
     	<li class="active">
-
+Manage Transaction
         	<?php
 
-            if( !isset( $_SESSION["transaction"]["list"]["project_id"] ) || $_SESSION["transaction"]["list"]["project_id"] == "" ) {
+            // if( !isset( $_SESSION["transaction"]["list"]["project_id"] ) || $_SESSION["transaction"]["list"]["project_id"] == "" ) {
 
-				echo "All Transactions";
+			// 	echo "All Transactions";
 
-			}
+			// }
 
-			else if( $_SESSION["transaction"]["list"]["project_id"] == "0" ) {
+			// else if( $_SESSION["transaction"]["list"]["project_id"] == "0" ) {
 
-				echo "Administrative Transaction";
+			// 	echo "Administrative Transaction";
 
-			}
+			// }
 
-			else {
+			// else {
 
-				echo "Project: ".get_field( $_SESSION["transaction"]["list"]["project_id"], "project" );
+			// 	echo "Project: ".get_field( $_SESSION["transaction"]["list"]["project_id"], "project" );
 
-			}
+			// }
 
 			?>
 
@@ -68,59 +68,8 @@ else{
 
 </div>
 
-<form class="form-horizontal form-horizontal-left" role="form" action="transaction_manage.php?tab=add" method="post" enctype="multipart/form-data" name="frmAdd"  onSubmit="return checkFields();">
+<form class="form-horizontal form-horizontal-left" role="form" action="transaction_manage.php?tab=add" method="post" enctype="multipart/form-data" name="frmAdd" >
 
-    <?php
-
-        $i=0;
-
-    ?>
-
-    <div class="form-group">
-
-    	<div class="row">
-
-            <div class="col-sm-2 control-label">
-
-                <label class="form-label" for="project_id">Project </label>
-
-            </div>
-
-            <div class="col-sm-10">
-
-                <select name="project_id" title="Choose Option">
-                    <?php if($_SESSION["logged_in_admin"]["admin_type_id"]==1){?>
-                    <option value="">All Transactions</option>
-
-                    <option value="0">Administrative Transactions</option>
-                    <?php }?>
-                    <?php
-
-                    $res=doquery("select a.* from project a left join admin_2_project b on a.id = b.project_id where status=1 ".$adminId." order by title", $dblink);
-
-                    if(numrows($res)>0){
-
-                        while($rec=dofetch($res)){
-
-                        ?>
-
-                        <option value="<?php echo $rec["id"]?>"<?php echo($project_id==$rec["id"])?"selected":"";?>><?php echo unslash($rec["title"]); ?></option>
-
-                     	<?php			
-
-                        }			
-
-                    }
-
-                    ?>
-
-                </select>
-
-            </div>
-
-        </div>
-
-  	</div>
 
     <div class="form-group">
 

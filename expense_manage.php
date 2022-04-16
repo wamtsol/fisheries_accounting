@@ -15,17 +15,17 @@ else{
 }
 $extra='';
 $is_search=false;
-if(isset($_GET["project_id"])){
-	$_SESSION["expense"]["list"]["project_id"]=$_GET["project_id"];
-}
-if(isset($_SESSION["expense"]["list"]["project_id"]))
-	$project_id=$_SESSION["expense"]["list"]["project_id"];
-else
-	$project_id="";
-if( $project_id!="" ){
-	$extra.=" and a.project_id='".$project_id."'";
-	$is_search=true;
-}
+// if(isset($_GET["project_id"])){
+// 	$_SESSION["expense"]["list"]["project_id"]=$_GET["project_id"];
+// }
+// if(isset($_SESSION["expense"]["list"]["project_id"]))
+// 	$project_id=$_SESSION["expense"]["list"]["project_id"];
+// else
+// 	$project_id="";
+// if( $project_id!="" ){
+// 	$extra.=" and a.project_id='".$project_id."'";
+// 	$is_search=true;
+// }
 if( isset($_GET["date_from"]) ){
 	$_SESSION["expense"]["list"]["date_from"] = $_GET["date_from"];
 }
@@ -81,7 +81,7 @@ $adminId = '';
 if($_SESSION["logged_in_admin"]["admin_type_id"]!=1){
 	$adminId = "and b.admin_id = '".$_SESSION["logged_in_admin"]["id"]."'";
 }
-$sql="select a.* from expense a left join admin_2_project b on a.project_id = b.project_id where 1 $extra $adminId order by datetime_added desc";
+$sql="select * from expense where 1 $extra order by datetime_added desc";
 
 switch($tab){
 	case 'add':

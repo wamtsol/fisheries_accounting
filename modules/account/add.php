@@ -4,6 +4,7 @@ if(isset($_SESSION["account_manage"]["add"])){
 	extract($_SESSION["account_manage"]["add"]);	
 }
 else{
+    $parent_id="";
 	$title="";
 	$description="";
 	$balance="";
@@ -20,10 +21,29 @@ else{
     	<div class="btn-group" role="group" aria-label="..."> <a href="account_manage.php" class="btn btn-light editproject">Back to List</a> </div>
   	</div>
 </div>
-<form class="form-horizontal form-horizontal-left" role="form" action="account_manage.php?tab=add" method="post" enctype="multipart/form-data" name="frmAdd"  onSubmit="return checkFields();">
-    <?php
-        $i=0;
-    ?>
+<form class="form-horizontal form-horizontal-left" role="form" action="account_manage.php?tab=add" method="post" enctype="multipart/form-data" name="frmAdd">
+    <div class="form-group">
+    	<div class="row">
+            <div class="col-sm-2 control-label">
+                <label class="form-label" for="parent_id">Head of Account</label>
+            </div>
+            <div class="col-sm-10">
+                <select name="parent_id" title="Choose Option">
+                    <option value="0">Select Account</option>
+                    <?php
+                    $res=doquery("select * from account where status=1 order by title", $dblink);
+                    if(numrows($res)>0){
+                        while($rec=dofetch($res)){
+                        ?>
+                        <option value="<?php echo $rec["id"]?>"<?php echo($parent_id==$rec["id"])?"selected":"";?>><?php echo unslash($rec["title"]); ?></option>
+                         <?php			
+                        }			
+                    }
+                    ?>
+                </select>
+            </div>
+        </div>
+  	</div>
     <div class="form-group">
         <div class="row">
         	<div class="col-sm-2 control-label">

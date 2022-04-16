@@ -6,10 +6,10 @@ if(isset($_POST["expense_add"])){
 	if(empty($datetime_added) || empty($amount))
 		$err="Fields with (*) are Mandatory.<br />";
 	if($err==""){
-		$sql="INSERT INTO expense (project_id, datetime_added, expense_category_id, account_id, details, amount, cheque_number, added_by) VALUES ('".slash($project_id)."', '".slash(datetime_dbconvert($datetime_added))."', '".slash($expense_category_id)."', '".slash($account_id)."', '".slash($details)."','".slash($amount)."','".slash($cheque_number)."','".$_SESSION["logged_in_admin"]["id"]."')";
+		$sql="INSERT INTO expense (datetime_added, expense_category_id, account_id, details, amount, cheque_number, added_by) VALUES ('".slash(datetime_dbconvert($datetime_added))."', '".slash($expense_category_id)."', '".slash($account_id)."', '".slash($details)."','".slash($amount)."','".slash($cheque_number)."','".$_SESSION["logged_in_admin"]["id"]."')";
 		doquery($sql,$dblink);
 		unset($_SESSION["expense_manage"]["add"]);
-		header('Location: expense_manage.php?tab=list&msg='.url_encode("Sucessfully Added"));
+		header('Location: expense_manage.php?tab=list&msg='.url_encode("Successfully Added"));
 		die;
 	}
 	else{

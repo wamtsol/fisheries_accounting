@@ -13,6 +13,28 @@ if(!defined("APP_START")) die("No Direct Access");
 <form class="form-horizontal form-horizontal-left" role="form" action="account_manage.php?tab=edit" method="post" enctype="multipart/form-data" name="frmAdd">
     <input type="hidden" name="id" value="<?php echo $id;?>">
     <div class="form-group">
+    	<div class="row">
+            <div class="col-sm-2 control-label">
+                <label class="form-label" for="parent_id">Head of Account</label>
+            </div>
+            <div class="col-sm-10">
+                <select name="parent_id" title="Choose Option">
+                    <option value="0">Select Account</option>
+                    <?php
+                    $res=doquery("select * from account where status=1 order by title", $dblink);
+                    if(numrows($res)>0){
+                        while($rec=dofetch($res)){
+                        ?>
+                        <option value="<?php echo $rec["id"]?>"<?php echo($parent_id==$rec["id"])?"selected":"";?>><?php echo unslash($rec["title"]); ?></option>
+                         <?php			
+                        }			
+                    }
+                    ?>
+                </select>
+            </div>
+        </div>
+  	</div>
+    <div class="form-group">
         <div class="row">
         	<div class="col-sm-2 control-label">
             	<label class="form-label" for="title">Title </label>
