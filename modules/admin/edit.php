@@ -43,14 +43,14 @@ if(!defined("APP_START")) die("No Direct Access");
                 <select name="project_ids[]" title="Choose Option" multiple="multiple" class="select_multiple">
                     <option value="0">Select Project</option>
                     <?php
-                    $res=doquery("Select * from project order by title",$dblink);
-                    if(numrows($res)>0){
-                        while($rec=dofetch($res)){
-                            ?>
-                            <option value="<?php echo $rec["id"]?>"<?php echo in_array($rec["id"], $project_ids)?"selected":"";?>><?php echo unslash($rec["title"]); ?></option>
-                            <?php			
-                        }			
-                    }
+                    // $res=doquery("Select * from project order by title",$dblink);
+                    // if(numrows($res)>0){
+                    //     while($rec=dofetch($res)){
+                    //         ?>
+                    //         <option value="<?php echo $rec["id"]?>"<?php echo in_array($rec["id"], $project_ids)?"selected":"";?>><?php echo unslash($rec["title"]); ?></option>
+                    //         <?php			
+                    //     }			
+                    // }
                     ?>
                 </select>
             </div>
