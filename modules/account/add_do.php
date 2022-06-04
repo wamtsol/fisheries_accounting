@@ -6,10 +6,10 @@ if(isset($_POST["account_add"])){
 	if(empty($title))
 		$err="Fields with (*) are Mandatory.<br />";
 	if($err==""){
-		$sql="INSERT INTO account (title, parent_id, type, description, balance, is_petty_cash) VALUES ('".slash($title)."', '".slash($parent_id)."', '".slash($type)."', '".slash($description)."', '".slash($balance)."', '".slash($is_petty_cash)."')";
+		$sql="INSERT INTO account (title, wing_id, parent_id, balance) VALUES ('".slash($title)."', '".slash($wing_id)."', '".slash($parent_id)."', '".slash($balance)."')";
 		doquery($sql,$dblink);
 		unset($_SESSION["account_manage"]["add"]);
-		header('Location: account_manage.php?tab=list&msg='.url_encode("Sucessfully Added"));
+		header('Location: account_manage.php?tab=list&msg='.url_encode("Successfully Added"));
 		die;
 	}
 	else{

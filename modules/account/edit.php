@@ -15,13 +15,35 @@ if(!defined("APP_START")) die("No Direct Access");
     <div class="form-group">
     	<div class="row">
             <div class="col-sm-2 control-label">
-                <label class="form-label" for="parent_id">Head of Account</label>
+                <label class="form-label" for="wing_id">Wing</label>
+            </div>
+            <div class="col-sm-10">
+                <select name="wing_id" title="Choose Option">
+                    <option value="0">Select Wing</option>
+                    <?php
+                    $res=doquery("select * from wing where status=1 order by title", $dblink);
+                    if(numrows($res)>0){
+                        while($rec=dofetch($res)){
+                        ?>
+                        <option value="<?php echo $rec["id"]?>"<?php echo($wing_id==$rec["id"])?"selected":"";?>><?php echo unslash($rec["title"]); ?></option>
+                         <?php			
+                        }			
+                    }
+                    ?>
+                </select>
+            </div>
+        </div>
+  	</div>
+    <div class="form-group">
+    	<div class="row">
+            <div class="col-sm-2 control-label">
+                <label class="form-label" for="parent_id">Major Head</label>
             </div>
             <div class="col-sm-10">
                 <select name="parent_id" title="Choose Option">
-                    <option value="0">Select Account</option>
+                    <option value="0">Select Major Head</option>
                     <?php
-                    $res=doquery("select * from account where status=1 order by title", $dblink);
+                    $res=doquery("select * from account where status=1 and parent_id = 0 order by title", $dblink);
                     if(numrows($res)>0){
                         while($rec=dofetch($res)){
                         ?>
@@ -37,62 +59,20 @@ if(!defined("APP_START")) die("No Direct Access");
     <div class="form-group">
         <div class="row">
         	<div class="col-sm-2 control-label">
-            	<label class="form-label" for="title">Title </label>
+            	<label class="form-label" for="title">Sub Head </label>
             </div>
             <div class="col-sm-10">
-                <input type="text" title="Enter Title" value="<?php echo $title; ?>" name="title" id="title" class="form-control" />
-            </div>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="row">
-            <div class="col-sm-2 control-label">
-                <label for="type" class="form-label">Type </label>
-            </div>
-            <div class="col-sm-10">
-                <select name="type" id="type" title="Choose Option">
-                    <option value="">Select Type</option>
-                    <?php
-                    foreach ($account_type as $key=>$value) {
-                        ?>
-                        <option value="<?php echo $key?>"<?php echo $key==$type?' selected="selected"':""?>><?php echo $value ?></option>
-                        <?php
-                    }
-                    ?>
-                </select>
+                <input type="text" title="Enter Sub Head" value="<?php echo $title; ?>" name="title" id="title" class="form-control" />
             </div>
         </div>
     </div>
     <div class="form-group">
         <div class="row">
         	<div class="col-sm-2 control-label">
-            	<label class="form-label" for="description">Description </label>
-            </div>
-            <div class="col-sm-10">
-                <textarea title="Enter Description" name="description" id="description" class="form-control"><?php echo $description; ?></textarea>
-            </div>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="row">
-        	<div class="col-sm-2 control-label">
-            	<label class="form-label" for="balance">Balance </label>
+            	<label class="form-label" for="balance">Budget Approved </label>
             </div>
             <div class="col-sm-10">
                 <input type="text" title="Enter Balance" value="<?php echo $balance; ?>" name="balance" id="balance" class="form-control" />
-            </div>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="row">
-        	<div class="col-sm-2 control-label">
-            	<label class="form-label" for="is_petty_cash">Is Pretty Cash </label>
-            </div>
-            <div class="col-sm-10">
-                <select name="is_petty_cash" id="is_petty_cash">
-                    <option value="0"<?php echo $is_petty_cash=="0"?' selected="selected"':''?>>No</option>
-                    <option value="1"<?php echo $is_petty_cash=="1"?' selected="selected"':''?>>Yes</option>
-                </select>
             </div>
         </div>
     </div>

@@ -13,13 +13,6 @@ if(isset($_REQUEST["tab"]) && in_array($_REQUEST["tab"], $tab_array)){
 else{
 	$tab="list";
 }
-// if(isset($_GET["project_id"])){
-// 	$project_id=slash($_GET["project_id"]);
-// 	$_SESSION["transaction"]["list"]["project_id"]=$project_id;
-// }
-// else{
-// 	$project_id="";
-// }
 $extra='';
 $is_search=false;
 if( isset($_GET["date_from"]) ){
@@ -32,7 +25,7 @@ else{
 	$date_from = "";
 }
 if( !empty($date_from) ){
-	$extra=" and datetime_added>='".date("Y/m/d H:i:s", strtotime(date_dbconvert($date_from)))."'";
+	$extra.=" and datetime_added>='".date("Y/m/d H:i:s", strtotime(date_dbconvert($date_from)))."'";
 	$is_search=true;
 }
 if( isset($_GET["date_to"]) ){
@@ -45,29 +38,19 @@ else{
 	$date_to = "";
 }
 if( !empty($date_to) ){
-	$extra=" and datetime_added<'".date("Y/m/d", strtotime(date_dbconvert($date_to))+3600*24)."'";
+	$extra.=" and datetime_added<'".date("Y/m/d", strtotime(date_dbconvert($date_to))+3600*24)."'";
 	$is_search=true;
 }
-// if(isset($_SESSION["transaction"]["list"]["project_id"]))
-// 	$project_id=$_SESSION["transaction"]["list"]["project_id"];
-// else
-// 	$project_id="";
-// if($project_id!=""){
-// 	$extra.=" and a.project_id='".$project_id."'";
-// 	$is_search=true;
-// }
 if(isset($_GET["reference_id"])){
 	$reference_id=slash($_GET["reference_id"]);
 	$_SESSION["transaction"]["list"]["reference_id"]=$reference_id;
 }
-$acount_extra = array();
 if(isset($_SESSION["transaction"]["list"]["reference_id"]))
 	$reference_id=$_SESSION["transaction"]["list"]["reference_id"];
 else
 	$reference_id="";
 if($reference_id!=""){
 	$extra.=" and reference_id='".$reference_id."'";
-	//$acount_extra[]="reference_id='".$reference_id."'";
 	$is_search=true;
 }
 if(isset($_GET["account_id"])){
@@ -80,16 +63,20 @@ else
 	$account_id="";
 if($account_id!=""){
 	$extra.=" and account_id='".$account_id."'";
-	//$acount_extra[]="account_id='".$account_id."'";
 	$is_search=true;
 }
-if( count($acount_extra) > 0 ){
-	$extra.=" and (".implode(" or ", $acount_extra ).")";
+if(isset($_GET["wing_id"])){
+	$wing_id=slash($_GET["wing_id"]);
+	$_SESSION["transaction"]["list"]["wing_id"]=$wing_id;
 }
-// $adminId = '';
-// if($_SESSION["logged_in_admin"]["admin_type_id"]!=1){
-// 	$adminId = "and b.admin_id = '".$_SESSION["logged_in_admin"]["id"]."'";
-// }
+if(isset($_SESSION["transaction"]["list"]["wing_id"]))
+	$wing_id=$_SESSION["transaction"]["list"]["wing_id"];
+else
+	$wing_id="";
+if($wing_id!=""){
+	$extra.=" and wing_id='".$wing_id."'";
+	$is_search=true;
+}
 $sql="select * from transaction where 1 $extra order by datetime_added desc";
 
 switch($tab){

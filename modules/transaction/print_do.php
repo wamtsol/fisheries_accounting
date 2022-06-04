@@ -27,17 +27,27 @@ table {
 	max-width:1200px;
 	margin:0 auto;
 }
+.text-right{ text-align:right}
+.text-left{ text-align:left}
 </style>
 <table width="100%" cellspacing="0" cellpadding="0">
 <tr class="head">
-	<th colspan="6">
-    	<?php echo get_config( 'fees_chalan_header' )?>
-    	<h2>Project Payment List</h2>
+	<th colspan="9">
+    	<h2>Releases List</h2>
         <p>
         	<?php
 			echo "List of";
-			if( !empty( $project_id ) ){
-				echo " Project: ".get_field($project_id, "project","title");
+            if( !empty( $date_from ) || !empty( $date_to ) ){
+                echo "<br />Date";
+            }
+            if( !empty( $date_from ) ){
+                echo " from ".$date_from;
+            }
+            if( !empty( $date_to ) ){
+                echo " to ".$date_to;
+            }
+			if( !empty( $wing_id ) ){
+				echo " Wing: ".get_field($wing_id, "wing","title");
 			}
 			?>
         </p>
@@ -46,28 +56,42 @@ table {
 <tr>
     <th width="5%" align="center">S.no</th>
     <th width="5%" align="center">ID</th>
-    <th>Project Name</th>
-    <th>Datetime</th>
-    <th align="right">Amount</th>
-    <th>Paid By</th>
+    <th width="12%">Wing</th>
+    <th width="15%">Major Head</th>
+    <th width="15%">Sub Head</th>
+    <th width="12%">Date of Release</th>
+    <th width="8%" class="text-right">Ammount</th>  
+    <th width="15%">Details</th>
+    <th width="10%">Cheque Number</th>
 </tr>
 <?php
+$total_amount = 0;
 if( numrows( $rs ) > 0 ) {
 	$sn = 1;
 	while( $r = dofetch( $rs ) ) {
+        $total_amount += $r["amount"]; 
 		?>
 		<tr>
         	<td align="center"><?php echo $sn++?></td>
            	<td align="center"><?php echo $r["id"]?></td>
-            <td><?php echo unslash( $r[ "title" ] );?></td>
+            <td><?php echo get_field($r["wing_id"], "wing","title");?></td>
+            <td><?php echo get_field($r["account_id"], "account","title");?></td>
+            <td><?php echo get_field($r["reference_id"], "account","title");?></td>
             <td><?php echo datetime_convert($r["datetime_added"]); ?></td>
-            <td align="right"><?php echo curr_format(unslash($r["amount"])); ?></td>
-            <td><?php echo get_field( unslash($r["account_id"]), "account", "title" ); ?></td>
+            <td class="text-right"><?php echo curr_format(unslash($r["amount"])); ?></td>
+            <td><?php echo slash($r["details"]); ?></td>
+            <td><?php echo unslash($r["cheque_number"]); ?></td>
         </tr>
 		<?php
 	}
 }
 ?>
+<tr>
+    <th colspan="6" class="text-right">Total</th>
+    <th class="text-right"><?php echo curr_format($total_amount);?></th>
+    <th></th>
+    <th></th>
+</tr>
 </table>
 <?php
 die;

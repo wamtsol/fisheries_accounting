@@ -55,6 +55,7 @@ angular.module('invoice', ['ngAnimate', 'angularMoment', 'ui.bootstrap', 'angula
 				});
 				$scope.invoice.items.push( angular.copy( $scope.item ) );
 			}
+
 		});
 		
 		$scope.get_action = function(){

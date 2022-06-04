@@ -1,15 +1,29 @@
 <?php
 if(!defined("APP_START")) die("No Direct Access");
-
+$q="";
+$extra='';
+$is_search=false;
+if(isset($_GET["q"])){
+	$q=slash($_GET["q"]);
+	$_SESSION["wing_manage"]["q"]=$q;
+}
+if(isset($_SESSION["wing_manage"]["q"]))
+	$q=$_SESSION["wing_manage"]["q"];
+else
+	$q="";
+if(!empty($q)){
+	$extra.=" and title like '%".$q."%'";
+	$is_search=true;
+}
 ?>
 <div class="page-header">
-	<h1 class="title">Allocation</h1>
+	<h1 class="title">Wing</h1>
   	<ol class="breadcrumb">
-    	<li class="active">Manage Allocation</li>
+    	<li class="active">Manage Wing</li>
   	</ol>
   	<div class="right">
     	<div class="btn-group" role="group" aria-label="..."> 
-        	<a href="account_manage.php?tab=add" class="btn btn-light editproject">Add New Allocation</a> 
+        	<a href="wing_manage.php?tab=add" class="btn btn-light editproject">Add New Wing</a> 
             <a id="topstats" class="btn btn-light" href="#"><i class="fa fa-search"></i></a> 
     	</div> 
     </div> 
@@ -18,21 +32,6 @@ if(!defined("APP_START")) die("No Direct Access");
     <li class="col-xs-12 col-lg-12 col-sm-12">
     	<div>
         	<form class="form-horizontal" action="" method="get">
-                <div class="col-sm-3">
-                	<select name="wing_id" id="wing_id" class="custom_select">
-                        <option value=""<?php echo ($wing_id=="")? " selected":"";?>>Select Wing</option>
-                        <?php
-                            $res=doquery("select * from wing where status = 1 order by title",$dblink);
-                            if(numrows($res)>=0){
-                                while($rec=dofetch($res)){
-                                ?>
-                                <option value="<?php echo $rec["id"]?>"<?php echo($wing_id==$rec["id"])?"selected":"";?>><?php echo unslash($rec["title"])?></option>
-                            	<?php
-                                }
-                            }	
-                        ?>
-                    </select>
-                </div>
                 <div class="col-sm-3">
                   <input type="text" title="Enter String" value="<?php echo $q;?>" name="q" id="search" class="form-control" >  
                 </div>
@@ -48,20 +47,18 @@ if(!defined("APP_START")) die("No Direct Access");
 	<table class="table table-hover list">
     	<thead>
             <tr>
-                <th width="5%" class="text-center">S.No</th>
+                <th class="text-center" width="5%">S.No</th>
                 <th class="text-center" width="5%"><div class="checkbox checkbox-primary">
                     <input type="checkbox" id="select_all" value="0" title="Select All Records">
                     <label for="select_all"></label></div></th>
-                <th width="15%">Wing</th>
-                <th width="25%">Major Head</th>
-                <th>Sub Head</th>
-                <th width="12%" class="text-right">Budget Approved</th>
-                <th width="8%" class="text-center">Status</th>
+                <th width="40%">Title</th>
+                <th width="10%" class="text-center">Status</th>
                 <th width="10%" class="text-center">Actions</th>
             </tr>
         </thead>
         <tbody>
             <?php 
+            $sql="select * from wing where 1 $extra";
             $rs=show_page($rows, $pageNum, $sql);
             if(numrows($rs)>0){
                 $sn=1;
@@ -73,12 +70,9 @@ if(!defined("APP_START")) die("No Direct Access");
                             <input type="checkbox" name="id[]" id="<?php echo "rec_".$sn?>"  value="<?php echo $r["id"]?>" title="Select Record" />
                             <label for="<?php echo "rec_".$sn?>"></label></div>
                         </td>
-                        <td><?php echo get_field($r["wing_id"], "wing", "title"); ?></td>
-                        <td><?php echo get_field($r["parent_id"], "account", "title"); ?></td>
                         <td><?php echo unslash($r["title"]); ?></td>
-                        <td class="text-right"><?php echo get_account_balance(unslash($r["id"])); ?></td>
                         <td class="text-center">
-                            <a href="account_manage.php?id=<?php echo $r['id'];?>&tab=status&s=<?php echo ($r["status"]==0)?1:0;?>">
+                            <a href="wing_manage.php?id=<?php echo $r['id'];?>&tab=status&s=<?php echo ($r["status"]==0)?1:0;?>">
                                 <?php
                                 if($r["status"]==0){
                                     ?>
@@ -94,8 +88,8 @@ if(!defined("APP_START")) die("No Direct Access");
                             </a>
                         </td>
                         <td class="text-center">
-                            	<a href="account_manage.php?tab=edit&id=<?php echo $r['id'];?>"><img title="Edit Record" alt="Edit" src="images/edit.png"></a>&nbsp;&nbsp;
-                            	<a onclick="return confirm('Are you sure you want to delete')" href="account_manage.php?id=<?php echo $r['id'];?>&amp;tab=delete"><img title="Delete Record" alt="Delete" src="images/delete.png"></a>
+                            	<a href="wing_manage.php?tab=edit&id=<?php echo $r['id'];?>"><img title="Edit Record" alt="Edit" src="images/edit.png"></a>&nbsp;&nbsp;
+                            	<a onclick="return confirm('Are you sure you want to delete')" href="wing_manage.php?id=<?php echo $r['id'];?>&amp;tab=delete"><img title="Delete Record" alt="Delete" src="images/delete.png"></a>
                         </td>
                     </tr>  
                     <?php 
@@ -103,7 +97,7 @@ if(!defined("APP_START")) die("No Direct Access");
                 }
                 ?>
                 <tr>
-                    <td colspan="5" class="actions">
+                    <td colspan="3" class="actions">
                         <select name="bulk_action" class="" id="bulk_action" title="Choose Action">
                             <option value="null">Bulk Action</option>
                             <option value="delete">Delete</option>
@@ -112,14 +106,14 @@ if(!defined("APP_START")) die("No Direct Access");
                         </select>
                         <input type="button" name="apply" value="Apply" id="apply_bulk_action" class="btn btn-light" title="Apply Action"  />
                     </td>
-                    <td colspan="3" class="paging" title="Paging" align="right"><?php echo pages_list($rows, "account", $sql, $pageNum)?></td>
+                    <td colspan="2" class="paging" title="Paging" align="right"><?php echo pages_list($rows, "wing", $sql, $pageNum)?></td>
                 </tr>
                 <?php	
             }
             else{	
                 ?>
                 <tr>
-                    <td colspan="8"  class="no-record">No Result Found</td>
+                    <td colspan="5"  class="no-record">No Result Found</td>
                 </tr>
                 <?php
             }

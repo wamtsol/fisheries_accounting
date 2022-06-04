@@ -13,7 +13,34 @@ if(isset($_REQUEST["tab"]) && in_array($_REQUEST["tab"], $tab_array)){
 else{
 	$tab="list";
 }
-
+$q="";
+$extra='';
+$is_search=false;
+if(isset($_GET["q"])){
+	$q=slash($_GET["q"]);
+	$_SESSION["account_manage"]["q"]=$q;
+}
+if(isset($_SESSION["account_manage"]["q"]))
+	$q=$_SESSION["account_manage"]["q"];
+else
+	$q="";
+if(!empty($q)){
+	$extra.=" and title like '%".$q."%'";
+	$is_search=true;
+}
+if(isset($_GET["wing_id"])){
+	$wing_id=slash($_GET["wing_id"]);
+	$_SESSION["account_manage"]["wing_id"]=$wing_id;
+}
+if(isset($_SESSION["account_manage"]["wing_id"]))
+	$wing_id=$_SESSION["account_manage"]["wing_id"];
+else
+	$wing_id="";
+if($wing_id!=""){
+	$extra.=" and wing_id='".$wing_id."'";
+	$is_search=true;
+}
+$sql="select * from account where 1 $extra order by title";
 switch($tab){
 	case 'add':
 		include("modules/account/add_do.php");

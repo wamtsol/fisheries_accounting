@@ -2,28 +2,18 @@
 if(!defined("APP_START")) die("No Direct Access");
 ?>
 <div class="page-header">
-	<h1 class="title">Transaction</h1>
+	<h1 class="title">Releases</h1>
   	<ol class="breadcrumb">
     	<li class="active">
-            All Transaction
-        	<?php
-            // if( !isset( $_SESSION["transaction"]["list"]["project_id"] ) || $_SESSION["transaction"]["list"]["project_id"] == "" ) {
-			// 	echo "All Transactions";
-			// }
-			// else if( $_SESSION["transaction"]["list"]["project_id"] == "0" ) {
-			// 	echo "Administrative Transaction";
-			// }
-			// else {
-			// 	echo "Project: ".get_field( $_SESSION["transaction"]["list"]["project_id"], "project" );
-			// }
-			?>
+            All Releases
        	</li>
   	</ol>
   	<div class="right">
     	<div class="btn-group" role="group" aria-label="..."> 
-        	<a href="transaction_manage.php?tab=add" class="btn btn-light editproject">Add New Transaction</a> 
+        	<a href="transaction_manage.php?tab=add" class="btn btn-light editproject">Add New Release</a> 
             <a id="topstats" class="btn btn-light" href="#"><i class="fa fa-search"></i></a> 
             <a class="btn print-btn" href="transaction_manage.php?tab=csv_report">CSV</a>
+            <a class="btn print-btn" href="transaction_manage.php?tab=report"><i class="fa fa-print" aria-hidden="true"></i></a>
     	</div> 
     </div> 
 </div>
@@ -31,12 +21,26 @@ if(!defined("APP_START")) die("No Direct Access");
     <li class="col-xs-12 col-lg-12 col-sm-12">
     	<div>
         	<form class="form-horizontal" action="" method="get">
-            	
+                <div class="col-sm-2 margin-btm-5">
+                	<select name="wing_id" id="wing_id" class="custom_select">
+                        <option value=""<?php echo ($wing_id=="")? " selected":"";?>>Select Wing</option>
+                        <?php
+                            $res=doquery("select * from wing where status = 1 order by title",$dblink);
+                            if(numrows($res)>=0){
+                                while($rec=dofetch($res)){
+                                ?>
+                                <option value="<?php echo $rec["id"]?>" <?php echo($wing_id==$rec["id"])?"selected":"";?>><?php echo unslash($rec["title"])?></option>
+                            	<?php
+                                }
+                            }	
+                        ?>
+                    </select>
+                </div>
                 <div class="col-sm-2 margin-btm-5">
                 	<select name="account_id" id="account_id" class="custom_select">
-                        <option value=""<?php echo ($account_id=="")? " selected":"";?>>To All Accounts</option>
+                        <option value=""<?php echo ($account_id=="")? " selected":"";?>>Major Head</option>
                         <?php
-                            $res=doquery("select * from account order by title",$dblink);
+                            $res=doquery("select * from account where status = 1 and parent_id = 0 order by title",$dblink);
                             if(numrows($res)>=0){
                                 while($rec=dofetch($res)){
                                 ?>
@@ -49,9 +53,9 @@ if(!defined("APP_START")) die("No Direct Access");
                 </div>
             	<div class="col-sm-2 margin-btm-5">
                 	<select name="reference_id" id="reference_id" title="Choose Option">
-                        <option value=""<?php echo ($reference_id=="")? " selected":"";?>>From All Accounts</option>
+                        <option value=""<?php echo ($reference_id=="")? " selected":"";?>>Sub Head</option>
                         <?php
-                            $res=doquery("select * from account order by title",$dblink);
+                            $res=doquery("select * from account where status = 1 and parent_id !=0 order by title",$dblink);
                             if(numrows($res)>=0){
                                 while($rec=dofetch($res)){
                                 ?>
@@ -84,14 +88,15 @@ if(!defined("APP_START")) die("No Direct Access");
                 <th class="text-center" width="2%"><div class="checkbox checkbox-primary">
                     <input type="checkbox" id="select_all" value="0" title="Select All Records">
                     <label for="select_all"></label></div></th>
-                <th width="15%">Date/Time</th>
-                <th width="10%">Account To</th>
-                <th width="10%">Account From</th>
-                <th width="10%">Cheque Number</th>
-                <th width="20%">Details</th>
-                <th width="10%" class="text-right">Ammount</th>                
-                <th width="10%" class="text-center">Status</th>
-                <th width="10%" class="text-center">Actions</th>
+                <th width="12%">Wing</th>
+                <th width="15%">Major Head</th>
+                <th width="15%">Sub Head</th>
+                <th width="12%">Date of Release</th>
+                <th width="8%" class="text-right">Ammount</th>  
+                <th width="15%">Details</th>
+                <th width="10%">Cheque Number</th>       
+                <th width="5%" class="text-center">Status</th>
+                <th width="5%" class="text-center">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -109,12 +114,13 @@ if(!defined("APP_START")) die("No Direct Access");
                             <input type="checkbox" name="id[]" id="<?php echo "rec_".$sn?>"  value="<?php echo $r["id"]?>" title="Select Record" />
                             <label for="<?php echo "rec_".$sn?>"></label></div>
                         </td>
+                        <td><?php echo get_field($r["wing_id"], "wing","title");?></td>
+                        <td><?php echo get_field($r["account_id"], "account","title");?></td>
+                        <td><?php echo get_field($r["reference_id"], "account","title");?></td>
                         <td><?php echo datetime_convert($r["datetime_added"]); ?></td>
-                        <td><?php if($r["account_id"]==0) echo "Cash"; else echo get_field($r["account_id"], "account","title");?></td>
-                        <td><?php if($r["reference_id"]==0) echo "Default"; else echo get_field($r["reference_id"], "account","title");?></td>
-                        <td><?php echo unslash($r["cheque_number"]); ?></td>
-                        <td><?php echo slash($r["details"]); ?></td>
                         <td class="text-right"><?php echo curr_format(unslash($r["amount"])); ?></td>
+                        <td><?php echo slash($r["details"]); ?></td>
+                        <td><?php echo unslash($r["cheque_number"]); ?></td>
                         <td class="text-center">
                             <a href="transaction_manage.php?id=<?php echo $r['id'];?>&tab=status&s=<?php echo ($r["status"]==0)?1:0;?>">
                                 <?php
@@ -141,12 +147,12 @@ if(!defined("APP_START")) die("No Direct Access");
                 }
                 ?>
                 <tr>
-                    <th colspan="7" class="text-right">Total:</th>
+                    <th colspan="6" class="text-right">Total:</th>
                     <th class="text-right"><?php echo curr_format($total_amount);?></th>
-                    <th colspan="2"></th>
+                    <th colspan="4"></th>
                 </tr>
                 <tr>
-                    <td colspan="6" class="actions">
+                    <td colspan="7" class="actions">
                         <select name="bulk_action" class="" id="bulk_action" title="Choose Action">
                             <option value="null">Bulk Action</option>
                             <option value="delete">Delete</option>
@@ -162,7 +168,7 @@ if(!defined("APP_START")) die("No Direct Access");
             else{	
                 ?>
                 <tr>
-                    <td colspan="10"  class="no-record">No Result Found</td>
+                    <td colspan="11"  class="no-record">No Result Found</td>
                 </tr>
                 <?php
             }
