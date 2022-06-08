@@ -2,26 +2,15 @@
 if(!defined("APP_START")) die("No Direct Access");
 ?>
 <div class="page-header">
-	<h1 class="title">Manage Expense</h1>
+	<h1 class="title">Manage Bank Payment Voucher</h1>
   	<ol class="breadcrumb">
     	<li class="active">
-            All Expenses
-        	<?php
-            // if( !isset( $_SESSION["expense"]["list"]["project_id"] ) || $_SESSION["expense"]["list"]["project_id"] == "" ) {
-			// 	echo "All Expenses";
-			// }
-			// else if( $_SESSION["expense"]["list"]["project_id"] == "0" ) {
-			// 	echo "Administrative Expenses";
-			// }
-			// else {
-			// 	echo "Project: ".get_field( $_SESSION["expense"]["list"]["project_id"], "project" );
-			// }
-			?>
+            All Voucher
         </li>
   	</ol>
   	<div class="right">
     	<div class="btn-group" role="group" aria-label="..."> 
-        	<a href="expense_manage.php?tab=add" class="btn btn-light editproject">Add New Expense</a> 
+        	<a href="expense_manage.php?tab=add" class="btn btn-light editproject">Add New Voucher</a> 
             <a id="topstats" class="btn btn-light" href="#"><i class="fa fa-search"></i></a> 
             <a class="btn print-btn" href="expense_manage.php?tab=print"><i class="fa fa-print" aria-hidden="true"></i></a>
             <a class="btn print-btn" href="expense_manage.php?tab=csv_report">CSV</a>
@@ -32,30 +21,45 @@ if(!defined("APP_START")) die("No Direct Access");
     <li class="col-xs-12 col-lg-12 col-sm-12">
     	<div>
         	<form class="form-horizontal" action="" method="get">
-                <div class="col-sm-2 ">
-                	<select name="expense_category_id" id="expense_category_id" class="custom_select">
-                        <option value=""<?php echo ($expense_category_id=="")? " selected":"";?>>Select Expense Category</option>
+                <div class="col-sm-2 margin-btm-5">
+                	<select name="wing_id" id="wing_id" class="custom_select">
+                        <option value=""<?php echo ($wing_id=="")? " selected":"";?>>Select Wing</option>
                         <?php
-                            $res=doquery("select * from expense_category order by title",$dblink);
+                            $res=doquery("select * from wing where status = 1 order by title",$dblink);
                             if(numrows($res)>=0){
                                 while($rec=dofetch($res)){
                                 ?>
-                                <option value="<?php echo $rec["id"]?>"<?php echo($expense_category_id==$rec["id"])?"selected":"";?>><?php echo unslash($rec["title"])?></option>
+                                <option value="<?php echo $rec["id"]?>" <?php echo($wing_id==$rec["id"])?"selected":"";?>><?php echo unslash($rec["title"])?></option>
                             	<?php
                                 }
                             }	
                         ?>
                     </select>
                 </div>
-                <div class="col-sm-2 ">
-                	<select name="account_id" id="account_id" class="custom_select">
-                        <option value=""<?php echo ($account_id=="")? " selected":"";?>>Select Account</option>
+                <div class="col-sm-2 margin-btm-5">
+                	<select name="major_head" id="major_head" class="custom_select">
+                        <option value=""<?php echo ($major_head=="")? " selected":"";?>>Major Head</option>
                         <?php
-                            $res=doquery("select * from account order by title",$dblink);
+                            $res=doquery("select * from account where status = 1 and parent_id = 0 order by title",$dblink);
                             if(numrows($res)>=0){
                                 while($rec=dofetch($res)){
                                 ?>
-                                <option value="<?php echo $rec["id"]?>" <?php echo($account_id==$rec["id"])?"selected":"";?>><?php echo unslash($rec["title"])?></option>
+                                <option value="<?php echo $rec["id"]?>" <?php echo($major_head==$rec["id"])?"selected":"";?>><?php echo unslash($rec["title"])?></option>
+                            	<?php
+                                }
+                            }	
+                        ?>
+                    </select>
+                </div>
+                <div class="col-sm-2 margin-btm-5">
+                	<select name="sub_head" id="sub_head" title="Choose Option">
+                        <option value=""<?php echo ($sub_head=="")? " selected":"";?>>Sub Head</option>
+                        <?php
+                            $res=doquery("select * from account where status = 1 and parent_id !=0 order by title",$dblink);
+                            if(numrows($res)>=0){
+                                while($rec=dofetch($res)){
+                                ?>
+                                <option value="<?php echo $rec["id"]?>" <?php echo($sub_head==$rec["id"])?"selected":"";?>><?php echo unslash($rec["title"])?></option>
                             	<?php
                                 }
                             }	
@@ -85,8 +89,8 @@ if(!defined("APP_START")) die("No Direct Access");
                     <input type="checkbox" id="select_all" value="0" title="Select All Records">
                     <label for="select_all"></label></div></th>
                 <th width="10%">Date/Time</th>
-                <th width="13%">Expense Category</th>
-                <th width="12%">Payment Account</th>
+                <th width="13%">Major Head</th>
+                <th width="12%">Sub Head</th>
                 <th width="20%">Details</th>
                 <th width="8%" class="text-right">Amount</th>
                 <th width="10%">Cheque Number</th>
@@ -111,8 +115,8 @@ if(!defined("APP_START")) die("No Direct Access");
                             <label for="<?php echo "rec_".$sn?>"></label></div>
                         </td>
                         <td><?php echo datetime_convert($r["datetime_added"]); ?></td>
-                        <td><?php echo get_field( unslash($r["expense_category_id"]), "expense_category", "title" ); ?></td>
-                        <td><?php echo get_field( unslash($r["account_id"]), "account", "title" ); ?></td>
+                        <td><?php echo get_field( unslash($r["major_head"]), "account", "title" ); ?></td>
+                        <td><?php echo get_field( unslash($r["sub_head"]), "account", "title" ); ?></td>
                         <td><?php echo unslash($r["details"]); ?></td>
                         <td class="text-right"><?php echo curr_format(unslash($r["amount"])); ?></td>
                         <td><?php echo unslash($r["cheque_number"]); ?></td>

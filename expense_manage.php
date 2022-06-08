@@ -15,17 +15,6 @@ else{
 }
 $extra='';
 $is_search=false;
-// if(isset($_GET["project_id"])){
-// 	$_SESSION["expense"]["list"]["project_id"]=$_GET["project_id"];
-// }
-// if(isset($_SESSION["expense"]["list"]["project_id"]))
-// 	$project_id=$_SESSION["expense"]["list"]["project_id"];
-// else
-// 	$project_id="";
-// if( $project_id!="" ){
-// 	$extra.=" and a.project_id='".$project_id."'";
-// 	$is_search=true;
-// }
 if( isset($_GET["date_from"]) ){
 	$_SESSION["expense"]["list"]["date_from"] = $_GET["date_from"];
 }
@@ -52,34 +41,41 @@ if( !empty($date_to) ){
 	$extra.=" and datetime_added<'".date("Y/m/d", strtotime(date_dbconvert($date_to))+3600*24)."'";
 	$is_search=true;
 }
-if(isset($_GET["expense_category_id"])){
-	$expense_category_id=slash($_GET["expense_category_id"]);
-	$_SESSION["expense"]["list"]["expense_category_id"]=$expense_category_id;
+if(isset($_GET["major_head"])){
+	$major_head=slash($_GET["major_head"]);
+	$_SESSION["expense"]["list"]["major_head"]=$major_head;
 }
-if(isset($_SESSION["expense"]["list"]["expense_category_id"]))
-	$expense_category_id=$_SESSION["expense"]["list"]["expense_category_id"];
+if(isset($_SESSION["expense"]["list"]["major_head"]))
+	$major_head=$_SESSION["expense"]["list"]["major_head"];
 else
-	$expense_category_id="";
-if($expense_category_id!=""){
-	//$extra.=" and expense_category_id in (".explode(",", $expense_category_id).")";
-	$extra.=" and expense_category_id='".$expense_category_id."'";
+	$major_head="";
+if($major_head!=""){
+	$extra.=" and major_head='".$major_head."'";
 	$is_search=true;
 }
-if(isset($_GET["account_id"])){
-	$account_id=slash($_GET["account_id"]);
-	$_SESSION["expense"]["list"]["account_id"]=$account_id;
+if(isset($_GET["sub_head"])){
+	$sub_head=slash($_GET["sub_head"]);
+	$_SESSION["expense"]["list"]["sub_head"]=$sub_head;
 }
-if(isset($_SESSION["expense"]["list"]["account_id"]))
-	$account_id=$_SESSION["expense"]["list"]["account_id"];
+if(isset($_SESSION["expense"]["list"]["sub_head"]))
+	$sub_head=$_SESSION["expense"]["list"]["sub_head"];
 else
-	$account_id="";
-if($account_id!=""){
-	$extra.=" and account_id='".$account_id."'";
+	$sub_head="";
+if($sub_head!=""){
+	$extra.=" and sub_head='".$sub_head."'";
 	$is_search=true;
 }
-$adminId = '';
-if($_SESSION["logged_in_admin"]["admin_type_id"]!=1){
-	$adminId = "and b.admin_id = '".$_SESSION["logged_in_admin"]["id"]."'";
+if(isset($_GET["wing_id"])){
+	$wing_id=slash($_GET["wing_id"]);
+	$_SESSION["expense"]["list"]["wing_id"]=$wing_id;
+}
+if(isset($_SESSION["expense"]["list"]["wing_id"]))
+	$wing_id=$_SESSION["expense"]["list"]["wing_id"];
+else
+	$wing_id="";
+if($wing_id!=""){
+	$extra.=" and wing_id='".$wing_id."'";
+	$is_search=true;
 }
 $sql="select * from expense where 1 $extra order by datetime_added desc";
 

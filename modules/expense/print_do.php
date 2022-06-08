@@ -27,17 +27,27 @@ table {
 	max-width:1200px;
 	margin:0 auto;
 }
+.text-right{ text-align:right}
+.text-left{ text-align:left}
 </style>
 <table width="100%" cellspacing="0" cellpadding="0">
 <tr class="head">
 	<th colspan="9">
-    	<?php echo get_config( 'fees_chalan_header' )?>
-    	<h2>Expense List</h2>
+        <h2>Bank Payment Voucher List</h2>
         <p>
         	<?php
 			echo "List of";
-			if( !empty( $expense_category_id ) ){
-				echo " Expense Category ".get_field($expense_category_id, "expense_category","title");
+            if( !empty( $date_from ) || !empty( $date_to ) ){
+                echo "<br />Date";
+            }
+            if( !empty( $date_from ) ){
+                echo " from ".$date_from;
+            }
+            if( !empty( $date_to ) ){
+                echo " to ".$date_to;
+            }
+			if( !empty( $wing_id ) ){
+				echo " Wing: ".get_field($wing_id, "wing","title");
 			}
 			?>
         </p>
@@ -45,10 +55,12 @@ table {
 </tr>
 <tr>
     <th width="5%" align="center">S.no</th>
-    <th width="20%">Date/Time</th>
-    <th width="15%">Expense Category</th>
-    <th width="10%">Paid By</th>
-    <th width="10%">Amount</th>
+    <th width="10%">Date/Time</th>
+    <th width="13%">Major Head</th>
+    <th width="12%">Sub Head</th>
+    <th width="20%">Details</th>
+    <th width="8%" class="text-right">Amount</th>
+    <th width="10%">Cheque Number</th>
     <th width="15%">Added By</th>
 </tr>
 <?php
@@ -60,18 +72,21 @@ if( numrows( $rs ) > 0 ) {
 		?>
 		<tr>
         	<td align="center"><?php echo $sn++?></td>
-           	<td><?php echo datetime_convert($r["datetime_added"]); ?></td>
-            <td><?php echo get_field( unslash($r["expense_category_id"]), "expense_category", "title" ); ?></td>
-            <td><?php echo get_field( unslash($r["account_id"]), "account", "title" ); ?></td>
-            <td><?php echo curr_format(unslash($r["amount"])); ?></td>
+            <td><?php echo datetime_convert($r["datetime_added"]); ?></td>
+            <td><?php echo get_field( unslash($r["major_head"]), "account", "title" ); ?></td>
+            <td><?php echo get_field( unslash($r["sub_head"]), "account", "title" ); ?></td>
+            <td><?php echo unslash($r["details"]); ?></td>
+            <td class="text-right"><?php echo curr_format(unslash($r["amount"])); ?></td>
+            <td><?php echo unslash($r["cheque_number"]); ?></td>
             <td><?php echo get_field( unslash($r["added_by"]), "admin", "username" ); ?></td>
         </tr>
 		<?php
 	}
 	?>
     <tr>
-        <td colspan="4">Total</td>
+        <td colspan="5">Total</td>
         <th><?php echo curr_format($total)?></th>
+        <th></th>
         <th></th>
     </tr>
     <?php

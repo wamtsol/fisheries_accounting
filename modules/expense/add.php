@@ -1,262 +1,210 @@
 <?php
-
 if(!defined("APP_START")) die("No Direct Access");
-
 if(isset($_SESSION["expense_manage"]["add"])){
-
 	extract($_SESSION["expense_manage"]["add"]);	
-
 }
-
 else{
-
+    $wing_id="";
 	$datetime_added=date("d/m/Y H:i A");
-
-	$expense_category_id="";
-
-	$account_id="";
-
+	$voucher_no="";
+	$major_head="";
+    $sub_head="";
+    $payee="";
 	$details="";
-
     $amount="";
-
+    $income_tax="";
+    $income_tax_deducted="";
+    $cheque_amount="";
+    $cheque_date=date("d/m/Y");
     $cheque_number="";
-
 }
-
 ?>
-
 <div class="page-header">
-
-	<h1 class="title">Add New Expense</h1>
-
+	<h1 class="title">Add New Bank Payment Voucher</h1>
   	<ol class="breadcrumb">
-
     	<li class="active">
-All Expenses
-        	<?php
-
-            // if( !isset( $_SESSION["expense"]["list"]["project_id"] ) || $_SESSION["expense"]["list"]["project_id"] == "" ) {
-
-			// 	echo "All Expenses";
-
-			// }
-
-			// else if( $_SESSION["expense"]["list"]["project_id"] == "0" ) {
-
-			// 	echo "Administrative Expenses";
-
-			// }
-
-			// else {
-
-			// 	echo "Project: ".get_field( $_SESSION["expense"]["list"]["project_id"], "project" );
-
-			// }
-
-			?>
-
+            Bank Payment Voucher
         </li>
-
   	</ol>
-
   	<div class="right">
-
     	<div class="btn-group" role="group" aria-label="..."> <a href="expense_manage.php" class="btn btn-light editproject">Back to List</a> </div>
-
   	</div>
-
 </div>
-
 <form class="form-horizontal form-horizontal-left" role="form" action="expense_manage.php?tab=add" method="post" enctype="multipart/form-data" name="frmAdd"  onSubmit="return checkFields();">
-
-
     <div class="form-group">
-
+    	<div class="row">
+            <div class="col-sm-2 control-label">
+                <label class="form-label" for="wing_id">Wing</label>
+            </div>
+            <div class="col-sm-10">
+                <select name="wing_id" title="Choose Option">
+                    <option value="0">Select Wing</option>
+                    <?php
+                    $res=doquery("select * from wing where status=1 order by title", $dblink);
+                    if(numrows($res)>0){
+                        while($rec=dofetch($res)){
+                        ?>
+                        <option value="<?php echo $rec["id"]?>"<?php echo($wing_id==$rec["id"])?"selected":"";?>><?php echo unslash($rec["title"]); ?></option>
+                     	<?php			
+                        }			
+                    }
+                    ?>
+                </select>
+            </div>
+        </div>
+  	</div>
+    <div class="form-group">
         <div class="row">
-
         	 <div class="col-sm-2 control-label">
-
             	<label class="form-label" for="datetime_added">Date/Time <span class="manadatory">*</span></label>
-
             </div>
-
             <div class="col-sm-10">
-
                 <input type="text" title="Enter datetime" value="<?php echo $datetime_added; ?>" name="datetime_added" id="datetime_added" class="form-control date-timepicker" />
-
             </div>
-
         </div>
-
     </div>
-
     <div class="form-group">
-
-    	<div class="row">
-
-            <div class="col-sm-2 control-label">
-
-                <label class="form-label" for="expense_category_id">Expense Category </label>
-
-            </div>
-
-            <div class="col-sm-10">
-
-                <select name="expense_category_id" title="Choose Option">
-
-                    <option value="0">Select Expense Category</option>
-
-                    <?php
-
-                    $res=doquery("select * from expense_category where status=1 order by title", $dblink);
-
-                    if(numrows($res)>0){
-
-                        while($rec=dofetch($res)){
-
-                        ?>
-
-                        <option value="<?php echo $rec["id"]?>"<?php echo($expense_category_id==$rec["id"])?"selected":"";?>><?php echo unslash($rec["title"]); ?></option>
-
-                     	<?php			
-
-                        }			
-
-                    }
-
-                    ?>
-
-                </select>
-
-            </div>
-
-        </div>
-
-  	</div>
-
-    <div class="form-group">
-
-    	<div class="row">
-
-            <div class="col-sm-2 control-label">
-
-                <label class="form-label" for="account_id">Paid By </label>
-
-            </div>
-
-            <div class="col-sm-10">
-
-                <select name="account_id" title="Choose Option">
-
-                    <option value="0">Select Account</option>
-
-                    <?php
-
-                    $res=doquery("select * from account where status=1 order by title", $dblink);
-
-                    if(numrows($res)>0){
-
-                        while($rec=dofetch($res)){
-
-                        ?>
-
-                        <option value="<?php echo $rec["id"]?>"<?php echo($account_id==$rec["id"])?"selected":"";?>><?php echo unslash($rec["title"]); ?></option>
-
-                     	<?php			
-
-                        }			
-
-                    }
-
-                    ?>
-
-                </select>
-
-            </div>
-
-        </div>
-
-  	</div>
-
-    <div class="form-group">
-
         <div class="row">
-
         	<div class="col-sm-2 control-label">
-
+            	<label class="form-label" for="voucher_no">Voucher No </label>
+            </div>
+            <div class="col-sm-10">
+                <input type="text" title="Enter Voucher" value="<?php echo $voucher_no; ?>" name="voucher_no" id="voucher_no" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+    	<div class="row">
+            <div class="col-sm-2 control-label">
+                <label class="form-label" for="major_head">Major Head <span class="manadatory">*</span></label>
+            </div>
+            <div class="col-sm-10">
+                <select name="major_head" title="Choose Option">
+                    <option value="0">Select Major Head</option>
+                    <?php
+                    $res=doquery("select * from account where status = 1 and parent_id = 0 order by title",$dblink);
+                    if(numrows($res)>0){
+                        while($rec=dofetch($res)){
+                        ?>
+                        <option value="<?php echo $rec["id"]?>"<?php echo($major_head==$rec["id"])?"selected":"";?>><?php echo unslash($rec["title"]); ?></option>
+                     	<?php			
+                        }			
+                    }
+                    ?>
+                </select>
+            </div>
+        </div>
+  	</div>
+    <div class="form-group">
+    	<div class="row">
+            <div class="col-sm-2 control-label">
+                <label class="form-label" for="sub_head">Sub Head <span class="manadatory">*</span></label>
+            </div>
+            <div class="col-sm-10">
+            	<select name="sub_head" id="sub_head" title="Choose Option">
+                    <option value="0">Select Sub Head</option>
+                    <?php
+                    $res=doquery("select * from account where status = 1 and parent_id !=0 order by title",$dblink);
+                    if(numrows($res)>0){
+                        while($rec=dofetch($res)){
+                        ?>
+                        <option value="<?php echo $rec["id"]?>"<?php echo($sub_head==$rec["id"])?"selected":"";?>><?php echo unslash($rec["title"]); ?></option>
+                     	<?php			
+                        }			
+                    }
+                    ?>
+                </select>
+            </div>
+        </div>
+  	</div>
+    <div class="form-group">
+        <div class="row">
+        	<div class="col-sm-2 control-label">
+            	<label class="form-label" for="payee">Payee </label>
+            </div>
+            <div class="col-sm-10">
+                <input type="text" title="Enter payee" value="<?php echo $payee; ?>" name="payee" id="payee" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="row">
+        	<div class="col-sm-2 control-label">
             	<label class="form-label" for="details">Details </label>
-
             </div>
-
             <div class="col-sm-10">
-
                  <textarea title="Enter Details" value="" name="details" id="details" class="form-control" /><?php echo $details; ?></textarea>
-
             </div>
-
         </div>
-
     </div>
-
     <div class="form-group">
-
         <div class="row">
-
         	<div class="col-sm-2 control-label">
-
             	<label class="form-label" for="amount">Amount <span class="manadatory">*</span> </label>
-
             </div>
-
             <div class="col-sm-10">
-
                 <input type="text" title="Enter Amount" value="<?php echo $amount; ?>" name="amount" id="amount" class="form-control" />
-
             </div>
-
         </div>
-
     </div>
-
     <div class="form-group">
-
         <div class="row">
-
         	<div class="col-sm-2 control-label">
-
-            	<label class="form-label" for="cheque_number">Cheque Number </label>
-
+            	<label class="form-label" for="income_tax">Income Tax</label>
             </div>
-
             <div class="col-sm-10">
-
-                <input type="text" title="Enter Cheque Number" value="<?php echo $cheque_number; ?>" name="cheque_number" id="cheque_number" class="form-control" />
-
+                <input type="text" title="Enter Income Tax" value="<?php echo $income_tax; ?>" name="income_tax" id="income_tax" class="form-control" />
             </div>
-
         </div>
-
     </div>
-
     <div class="form-group">
-
-    	<div class="row">
-
-            <div class="col-sm-2 control-label">
-
-                <label for="company" class="form-label"></label>
-
+        <div class="row">
+        	<div class="col-sm-2 control-label">
+            	<label class="form-label" for="income_tax_deducted">Income Tax Deducted</label>
             </div>
-
             <div class="col-sm-10">
-
-                <input type="submit" value="SUBMIT" class="btn btn-default btn-l" name="expense_add" title="Submit Record" />
-
+                <input type="text" title="Enter Income Tax Deduc" value="<?php echo $income_tax_deducted; ?>" name="income_tax_deducted" id="income_tax_deducted" class="form-control" />
             </div>
-
         </div>
-
+    </div>
+    <div class="form-group">
+        <div class="row">
+        	<div class="col-sm-2 control-label">
+            	<label class="form-label" for="cheque_amount">Cheque Amount</label>
+            </div>
+            <div class="col-sm-10">
+                <input type="text" title="Enter Cheque Amount" value="<?php echo $cheque_amount; ?>" name="cheque_amount" id="cheque_amount" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="row">
+        	<div class="col-sm-2 control-label">
+            	<label class="form-label" for="cheque_date">Cheque Date</label>
+            </div>
+            <div class="col-sm-10">
+                <input type="text" title="Enter Cheque Date" value="<?php echo $cheque_date; ?>" name="cheque_date" id="cheque_date" class="date-picker form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="row">
+        	<div class="col-sm-2 control-label">
+            	<label class="form-label" for="cheque_number">Cheque Number </label>
+            </div>
+            <div class="col-sm-10">
+                <input type="text" title="Enter Cheque Number" value="<?php echo $cheque_number; ?>" name="cheque_number" id="cheque_number" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+    	<div class="row">
+            <div class="col-sm-2 control-label">
+                <label for="company" class="form-label"></label>
+            </div>
+            <div class="col-sm-10">
+                <input type="submit" value="SUBMIT" class="btn btn-default btn-l" name="expense_add" title="Submit Record" />
+            </div>
+        </div>
   	</div>  
-
 </form>

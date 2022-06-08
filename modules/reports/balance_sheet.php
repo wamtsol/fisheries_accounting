@@ -86,42 +86,7 @@ if(!defined("APP_START")) die("No Direct Access");
 								}
 							}
 						}
-						$sql="select * from employee order by name";
-						$rs=doquery($sql, $dblink);
-						if( numrows($rs) > 0){
-							$sn=1;
-							?>
-                            <thead>
-                            <tr>
-                                <th colspan="2">Salary Account</th>
-                            </tr>
-                            </thead>
-                            <?php
-							while($r=dofetch($rs)){             
-								$salary = get_user_salary_total( $r[ "id" ] );
-								$balance = $salary["balance"];
-								$total_salary += $salary["total_credit"];
-                                $salary_balance += $balance;
-								if($balance!=0){
-									if( $balance >= 0 ) {
-										$total += $balance;
-										?>
-										<tr>
-											<td><?php echo unslash($r["name"]); ?></td>
-											<td class="text-right"><?php echo curr_format( $balance ) ?></td>
-										</tr>
-										<?php 
-										$sn++;
-									}
-									else {
-										$account_payable[] = array(
-											"name" => "Salary Account - ".unslash($r["name"] ),
-											"balance" => $balance
-										);
-									}
-								}
-							}
-						}
+						
 						if( count($fixed_assets) > 0){
                             ?>
                             <thead>
@@ -176,95 +141,7 @@ if(!defined("APP_START")) die("No Direct Access");
                         </tr>
                   	</table>
               	</td>
-                <td>
-					<table class="table table-hover list">
-                        <?php
-                        $total = 0;
-                        $revenue = dofetch(doquery("select sum(amount) as total from project_payment where status = 1", $dblink));
-                        $total += $revenue["total"]-$expense_total;
-                        ?>
-                        <thead>
-                        <tr>
-                            <th colspan="2">Revenue</th>
-                        </tr>
-                        </thead>
-                        <tr>
-                            <td>Net <?php echo $total < 0 ? 'Loss':'Income'?></td>
-                            <td class="text-right"><?php
-
-                                echo curr_format($total);
-                                ?></td>
-                        </tr>
-                        <?php
-						if( count($account_payable) > 0){
-							?>
-							<thead>
-                                <tr>
-                                    <th colspan="2">Accounts Payable</th>
-                                </tr>
-                            </thead>
-							<?php
-                            if($opening_balance>0){
-                                $total += $opening_balance;
-                                ?>
-                                <tr>
-                                    <td>Account Opening Balance</td>
-                                    <td class="text-right"><?php echo curr_format( $opening_balance ) ?></td>
-                                </tr>
-                                <?php
-                            }
-							$sn=1;
-							foreach( $account_payable as $account ){
-								$total += -$account[ "balance" ];
-								?>
-								<tr>
-									<td><?php echo $account["name"]; ?></td>
-									<td class="text-right"><?php echo curr_format( -$account[ "balance" ] ) ?></td>
-								</tr>
-								<?php 
-								$sn++;
-							}
-							?>
-							<?php	
-						}
-                        /*if($salary_balance>0){
-                            $total -= $salary_balance;
-                            ?>
-                            <tr>
-                                <td>Advance Salary</td>
-                                <td class="text-right"><?php echo curr_format( -$salary_balance ) ?></td>
-                            </tr>
-                            <?php
-                        }*/
-                        if( count($capitals) > 0){
-                            ?>
-                            <thead>
-                            <tr>
-                                <th colspan="2">Capital</th>
-                            </tr>
-                            </thead>
-                            <?php
-                            $sn=1;
-                            foreach( $capitals as $account ){
-                                $total += -$account[ "balance" ];
-                                ?>
-                                <tr>
-                                    <td><?php echo $account["name"]; ?></td>
-                                    <td class="text-right"><?php echo curr_format( -$account[ "balance" ] ) ?></td>
-                                </tr>
-                                <?php
-                                $sn++;
-                            }
-                            ?>
-                            <?php
-                        }
-						?>
-                        <tr>
-                            <th>Total</th>
-                            <th class="text-right"><?php echo curr_format( $total )?></th>
-                        </tr>
-                  	</table>
-              	</td>
+                
            	</tr>
     	</tbody>
   	</table>
