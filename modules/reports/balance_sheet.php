@@ -44,7 +44,7 @@ if(!defined("APP_START")) die("No Direct Access");
                             <?php
                         }
 						$sql="select * from account order by title";
-						//select b.title, account_id, sum(amount) from (SELECT account_id, 1 as type, sum(amount) as amount FROM `transaction` group by account_id union SELECT reference_id as account_id, 0 as type, -sum(amount) as amount FROM `transaction` group by reference_id union select account_id, 2 as type, -sum(amount) from expense group by account_id union select account_id, 3 as type, -sum(amount) from employee_salary_payment group by account_id union select account_id, 4 as type, sum(amount) from project_payment group by account_id) as t left join account b on t.account_id = b.id group by account_id order by title
+						
 						$rs=doquery($sql, $dblink);
 						if( numrows($rs) > 0){
 							$sn=1;

@@ -1231,7 +1231,7 @@ function get_account_balance( $account_id, $datetime = "", $project_id = "" ){
 	}
 	$balance_transactions = dofetch( doquery( "select sum(amount) as balance from (SELECT id, amount as amount FROM `transaction` a where a.account_id='".$account_id."' and datetime_added<='".$datetime."'".($project_id != ''?" and project_id='".$project_id."'":"")." union select id, -amount from transaction b where b.reference_id='".$account_id."' and datetime_added<='".$datetime."'".($project_id != ''?" and project_id='".$project_id."'":"").") as transactions", $dblink ) );
 	$balance = $balance + $balance_transactions[ "balance" ];
-	$expense = dofetch( doquery( "select sum(amount) as total from expense where status=1 and account_id = '".$account_id."' and datetime_added<='".$datetime."'".($project_id != ''?" and project_id='".$project_id."'":""), $dblink ) );
+	$expense = dofetch( doquery( "select sum(amount) as total from expense where status=1 and sub_head = '".$account_id."' and datetime_added<='".$datetime."'".($project_id != ''?" and project_id='".$project_id."'":""), $dblink ) );
 	$balance -= $expense[ "total" ];
 	// $project_payment = dofetch( doquery( "select sum(amount) as total from project_payment where status=1 and account_id = '".$account_id."' and datetime_added<='".$datetime."'".($project_id != ''?" and project_id='".$project_id."'":""), $dblink ) );
 	// $balance += $project_payment[ "total" ];
