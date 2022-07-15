@@ -62,10 +62,12 @@ if(!defined("APP_START")) die("No Direct Access");
         </thead>
         <tbody>
             <?php 
+            $total = 0;
             $rs=show_page($rows, $pageNum, $sql);
             if(numrows($rs)>0){
                 $sn=1;
-                while($r=dofetch($rs)){             
+                while($r=dofetch($rs)){      
+                    $total += get_account_balance($r["id"]);
                     ?>
                     <tr>
                         <td class="text-center"><?php echo $sn;?></td>
@@ -102,6 +104,10 @@ if(!defined("APP_START")) die("No Direct Access");
                     $sn++;
                 }
                 ?>
+                <tr>
+                    <th colspan="5" class="text-right">Total</th>
+                    <th class="text-right"><?php echo $total?></th>
+                </tr>
                 <tr>
                     <td colspan="5" class="actions">
                         <select name="bulk_action" class="" id="bulk_action" title="Choose Action">
