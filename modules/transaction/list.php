@@ -90,10 +90,11 @@ if(!defined("APP_START")) die("No Direct Access");
                     <label for="select_all"></label></div></th>
                 <th width="12%">Wing</th>
                 <th width="15%">Major Head</th>
-                <th width="15%">Sub Head</th>
+                <th width="12%">Sub Head</th>
+                <th width="10%">Code</th>
                 <th width="12%">Date of Release</th>
                 <th width="8%" class="text-right">Ammount</th>  
-                <th width="15%">Details</th>
+                <th width="12%">Details</th>
                 <th width="10%">Cheque Number</th>       
                 <th width="5%" class="text-center">Status</th>
                 <th width="5%" class="text-center">Actions</th>
@@ -117,6 +118,7 @@ if(!defined("APP_START")) die("No Direct Access");
                         <td><?php echo get_field($r["wing_id"], "wing","title");?></td>
                         <td><?php echo get_field($r["account_id"], "account","title");?></td>
                         <td><?php echo get_field($r["reference_id"], "account","title");?></td>
+                        <td><?php echo slash($r["code"]); ?></td>
                         <td><?php echo datetime_convert($r["datetime_added"]); ?></td>
                         <td class="text-right"><?php echo curr_format(unslash($r["amount"])); ?></td>
                         <td><?php echo slash($r["details"]); ?></td>
