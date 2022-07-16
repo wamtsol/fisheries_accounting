@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 16, 2022 at 08:56 AM
+-- Generation Time: Jul 16, 2022 at 10:28 AM
 -- Server version: 8.0.29
 -- PHP Version: 7.4.19
 
@@ -406,7 +406,7 @@ CREATE TABLE `transaction` (
   `account_id` int NOT NULL,
   `reference_id` int NOT NULL DEFAULT '0',
   `code` varchar(50) NOT NULL,
-  `date_added` date NOT NULL,
+  `datetime_added` date NOT NULL,
   `amount` decimal(10,2) NOT NULL,
   `details` text NOT NULL,
   `cheque_number` varchar(50) NOT NULL,
@@ -419,11 +419,12 @@ CREATE TABLE `transaction` (
 -- Dumping data for table `transaction`
 --
 
-INSERT INTO `transaction` (`id`, `wing_id`, `account_id`, `reference_id`, `code`, `date_added`, `amount`, `details`, `cheque_number`, `added_by`, `status`, `ts`) VALUES
+INSERT INTO `transaction` (`id`, `wing_id`, `account_id`, `reference_id`, `code`, `datetime_added`, `amount`, `details`, `cheque_number`, `added_by`, `status`, `ts`) VALUES
 (1, 1, 2, 4, '12354', '2022-07-29', '500000.00', 'Stipend cost', '332323', 0, 1, '2022-07-16 08:53:47'),
-(2, 2, 2, 7, '21541-215412', '1970-01-01', '30000.00', 'Alhye Chaw', '12124', 0, 1, '2022-07-16 08:51:38'),
-(3, 0, 0, 0, '21541-215412', '2022-07-21', '20000.00', 'ALhye Chaw ', '23152', 0, 1, '2022-07-16 08:52:53'),
-(4, 0, 0, 0, '21541-215412', '2022-07-21', '20000.00', 'ALhye Chaw ', '23152', 0, 1, '2022-07-16 08:52:53');
+(2, 2, 2, 7, '21541-215412', '2022-07-13', '30000.00', 'Alhye Chaw', '12124', 0, 1, '2022-07-16 10:27:09'),
+(3, 1, 2, 4, '21541-215412', '2022-07-21', '20000.00', 'ALhye Chaw ', '23152', 0, 1, '2022-07-16 09:24:26'),
+(4, 2, 1, 7, '21541-215412', '2022-09-21', '20000.00', 'ALhye Chaw ', '23152', 0, 1, '2022-07-16 09:25:48'),
+(5, 1, 1, 6, '21541-215412', '2022-07-19', '30000.00', 'klhboi nk', '2323', 0, 1, '2022-07-16 10:26:57');
 
 -- --------------------------------------------------------
 
@@ -614,7 +615,7 @@ ALTER TABLE `menu`
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `uploads`
