@@ -190,4 +190,15 @@ if(!defined("APP_START")) die("No Direct Access");
             </div>
         </div>
   	</div>
+      <script>
+        let amountID=document.getElementById("amount");
+        let income_taxID=document.getElementById("income_tax");
+                    
+        income_taxID.addEventListener("change",function(){
+            let persentage= ((amountID.value*income_taxID.value)/100).toString();
+            let amount =(amountID.value-persentage);
+            document.getElementById("income_tax_deducted").value = persentage;
+            document.getElementById("cheque_amount").value = amount;
+        });
+    </script>
 </form>
