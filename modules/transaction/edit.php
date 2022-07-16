@@ -96,7 +96,7 @@ if(!defined("APP_START")) die("No Direct Access");
             	<label class="form-label" for="date_added">Date of Release</label>
             </div>
             <div class="col-sm-10">
-                <input type="date" title="Enter Date/Time" value="<?php echo $date_added; ?>" name="date_added" id="date_added" class="form-control" />
+                <input type="date" title="Enter Date" value="<?php echo $datetime_added; ?>" name="date_added" id="date_added" class="form-control " />
             </div>
         </div>
     </div>

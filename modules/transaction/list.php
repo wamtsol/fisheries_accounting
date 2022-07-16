@@ -119,7 +119,7 @@ if(!defined("APP_START")) die("No Direct Access");
                         <td><?php echo get_field($r["account_id"], "account","title");?></td>
                         <td><?php echo get_field($r["reference_id"], "account","title");?></td>
                         <td><?php echo slash($r["code"]); ?></td>
-                        <td><?php echo date_convert($r["date_added"]); ?></td>
+                        <td><?php echo date_convert($r["datetime_added"]); ?></td>
                         <td class="text-right"><?php echo curr_format(unslash($r["amount"])); ?></td>
                         <td><?php echo slash($r["details"]); ?></td>
                         <td><?php echo unslash($r["cheque_number"]); ?></td>

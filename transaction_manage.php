@@ -77,7 +77,7 @@ if($wing_id!=""){
 	$extra.=" and wing_id='".$wing_id."'";
 	$is_search=true;
 }
-$sql="select * from transaction where 1 $extra order by date_added desc";
+$sql="select * from transaction where 1 $extra order by datetime_added desc";
 
 switch($tab){
 	case 'add':
