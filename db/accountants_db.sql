@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 15, 2022 at 01:08 PM
--- Server version: 5.7.33
+-- Generation Time: Jul 16, 2022 at 08:56 AM
+-- Server version: 8.0.29
 -- PHP Version: 7.4.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `fisheries_accounts`
+-- Database: `accountants_db`
 --
 
 -- --------------------------------------------------------
@@ -29,15 +28,16 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `account` (
-  `id` int(11) NOT NULL,
-  `wing_id` int(11) DEFAULT NULL,
-  `parent_id` int(11) DEFAULT NULL,
+  `id` int NOT NULL,
+  `wing_id` int DEFAULT NULL,
+  `parent_id` int DEFAULT NULL,
+  `code` varchar(50) NOT NULL,
   `title` varchar(50) NOT NULL,
-  `type` int(11) NOT NULL,
+  `type` int DEFAULT NULL,
   `description` varchar(1000) DEFAULT NULL,
   `balance` decimal(10,2) NOT NULL,
-  `is_petty_cash` int(1) NOT NULL DEFAULT '0',
-  `status` int(11) NOT NULL DEFAULT '1',
+  `is_petty_cash` int NOT NULL DEFAULT '0',
+  `status` int NOT NULL DEFAULT '1',
   `ts` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -45,14 +45,15 @@ CREATE TABLE `account` (
 -- Dumping data for table `account`
 --
 
-INSERT INTO `account` (`id`, `wing_id`, `parent_id`, `title`, `type`, `description`, `balance`, `is_petty_cash`, `status`, `ts`) VALUES
-(1, NULL, 0, 'Training Cost', 0, '', '0.00', 0, 1, '2022-04-15 05:04:17'),
-(2, NULL, 0, 'Stipend & Dislocation Cost', 0, '', '0.00', 0, 1, '2022-04-15 05:06:01'),
-(3, NULL, 1, 'Survey of Villages', 0, '', '0.00', 0, 1, '2022-04-15 05:06:39'),
-(4, NULL, 2, 'Stipend Cost', 0, '', '0.00', 0, 1, '2022-04-15 05:08:13'),
-(5, NULL, 1, 'Survey of villages', 0, '', '500000.00', 0, 1, '2022-04-16 20:58:57'),
-(6, 2, 1, 'Remuneration (Training staff)', 0, '', '1000000.00', 0, 1, '2022-06-03 15:38:11'),
-(7, 1, 1, 'Refreshment Cost', 0, '', '500000.00', 0, 1, '2022-06-03 15:37:58');
+INSERT INTO `account` (`id`, `wing_id`, `parent_id`, `code`, `title`, `type`, `description`, `balance`, `is_petty_cash`, `status`, `ts`) VALUES
+(1, NULL, 0, '', 'Training Cost', 0, '', '0.00', 0, 1, '2022-04-15 05:04:17'),
+(2, NULL, 0, '', 'Stipend & Dislocation Cost', 0, '', '0.00', 0, 1, '2022-04-15 05:06:01'),
+(3, NULL, 1, '', 'Survey of Villages', 0, '', '0.00', 0, 1, '2022-04-15 05:06:39'),
+(4, NULL, 2, '', 'Stipend Cost', 0, '', '0.00', 0, 1, '2022-04-15 05:08:13'),
+(5, NULL, 1, '', 'Survey of villages', 0, '', '500000.00', 0, 1, '2022-04-16 20:58:57'),
+(6, 2, 1, '21541-215412', 'Remuneration (Training staff)', 0, '', '1000000.00', 0, 1, '2022-07-15 13:35:29'),
+(7, 1, 1, '12354', 'Refreshment Cost', 0, '', '500000.00', 0, 1, '2022-07-15 13:35:16'),
+(9, 1, 2, '1213', 'Alhye', NULL, NULL, '2000.00', 0, 1, '2022-07-15 13:35:10');
 
 -- --------------------------------------------------------
 
@@ -61,14 +62,14 @@ INSERT INTO `account` (`id`, `wing_id`, `parent_id`, `title`, `type`, `descripti
 --
 
 CREATE TABLE `admin` (
-  `id` int(11) NOT NULL,
-  `admin_type_id` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `admin_type_id` int NOT NULL,
   `username` varchar(200) NOT NULL,
   `email` varchar(200) NOT NULL,
   `name` varchar(200) NOT NULL,
   `password` varchar(200) NOT NULL,
-  `status` int(11) NOT NULL DEFAULT '1'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `status` int NOT NULL DEFAULT '1'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;
 
 --
 -- Dumping data for table `admin`
@@ -84,15 +85,15 @@ INSERT INTO `admin` (`id`, `admin_type_id`, `username`, `email`, `name`, `passwo
 --
 
 CREATE TABLE `admin_type` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `title` varchar(200) NOT NULL,
-  `can_add` int(1) NOT NULL DEFAULT '0',
-  `can_edit` int(1) NOT NULL DEFAULT '0',
-  `can_delete` int(1) NOT NULL DEFAULT '0',
-  `can_read` int(1) NOT NULL DEFAULT '0',
-  `status` int(1) NOT NULL DEFAULT '1',
+  `can_add` int NOT NULL DEFAULT '0',
+  `can_edit` int NOT NULL DEFAULT '0',
+  `can_delete` int NOT NULL DEFAULT '0',
+  `can_read` int NOT NULL DEFAULT '0',
+  `status` int NOT NULL DEFAULT '1',
   `ts` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `admin_type`
@@ -109,10 +110,10 @@ INSERT INTO `admin_type` (`id`, `title`, `can_add`, `can_edit`, `can_delete`, `c
 --
 
 CREATE TABLE `config_type` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `title` varchar(200) NOT NULL,
-  `sortorder` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `sortorder` int NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;
 
 --
 -- Dumping data for table `config_type`
@@ -129,16 +130,16 @@ INSERT INTO `config_type` (`id`, `title`, `sortorder`) VALUES
 --
 
 CREATE TABLE `config_variable` (
-  `id` int(11) NOT NULL,
-  `config_type_id` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `config_type_id` int NOT NULL,
   `title` varchar(512) NOT NULL,
   `notes` varchar(512) NOT NULL,
   `type` varchar(200) NOT NULL,
   `default_values` text NOT NULL,
   `key` varchar(200) NOT NULL,
   `value` text NOT NULL,
-  `sortorder` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `sortorder` int NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;
 
 --
 -- Dumping data for table `config_variable`
@@ -162,25 +163,25 @@ INSERT INTO `config_variable` (`id`, `config_type_id`, `title`, `notes`, `type`,
 --
 
 CREATE TABLE `expense` (
-  `id` int(11) NOT NULL,
-  `wing_id` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `wing_id` int NOT NULL,
   `datetime_added` datetime NOT NULL,
   `voucher_no` varchar(50) NOT NULL,
   `expense_category_id` varchar(100) NOT NULL,
-  `major_head` int(11) NOT NULL,
-  `sub_head` int(11) NOT NULL,
+  `major_head` int NOT NULL,
+  `sub_head` int NOT NULL,
   `payee` varchar(50) NOT NULL,
   `details` varchar(1000) NOT NULL,
   `amount` decimal(10,2) NOT NULL,
-  `income_tax` int(11) DEFAULT NULL,
-  `income_tax_deducted` int(11) DEFAULT NULL,
-  `cheque_amount` int(11) DEFAULT NULL,
+  `income_tax` int DEFAULT NULL,
+  `income_tax_deducted` int DEFAULT NULL,
+  `cheque_amount` int DEFAULT NULL,
   `cheque_date` date DEFAULT NULL,
   `cheque_number` varchar(50) NOT NULL,
-  `added_by` int(11) NOT NULL,
-  `status` int(1) NOT NULL DEFAULT '1',
+  `added_by` int NOT NULL,
+  `status` int NOT NULL DEFAULT '1',
   `ts` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `expense`
@@ -196,9 +197,9 @@ INSERT INTO `expense` (`id`, `wing_id`, `datetime_added`, `voucher_no`, `expense
 --
 
 CREATE TABLE `expense_category` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `title` varchar(50) NOT NULL,
-  `status` int(11) NOT NULL DEFAULT '1',
+  `status` int NOT NULL DEFAULT '1',
   `ts` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -209,8 +210,8 @@ CREATE TABLE `expense_category` (
 --
 
 CREATE TABLE `invoice` (
-  `id` int(11) NOT NULL,
-  `project_id` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `project_id` int NOT NULL,
   `work_order_number` varchar(50) NOT NULL,
   `due_date` date NOT NULL,
   `invoice_date` date NOT NULL,
@@ -220,8 +221,8 @@ CREATE TABLE `invoice` (
   `net_amount` decimal(10,2) NOT NULL,
   `sales_tax` decimal(10,2) NOT NULL,
   `wht` decimal(10,2) NOT NULL,
-  `project_payment_id` int(11) DEFAULT NULL,
-  `status` int(1) NOT NULL DEFAULT '1',
+  `project_payment_id` int DEFAULT NULL,
+  `status` int NOT NULL DEFAULT '1',
   `ts` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -239,12 +240,12 @@ INSERT INTO `invoice` (`id`, `project_id`, `work_order_number`, `due_date`, `inv
 --
 
 CREATE TABLE `invoice_item` (
-  `id` int(11) NOT NULL,
-  `invoice_id` int(11) NOT NULL,
+  `id` int NOT NULL,
+  `invoice_id` int NOT NULL,
   `details` text NOT NULL,
   `rate` decimal(10,2) NOT NULL,
   `quantity` decimal(10,2) NOT NULL,
-  `quantity_unit` int(11) NOT NULL,
+  `quantity_unit` int NOT NULL,
   `amount` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -262,15 +263,15 @@ INSERT INTO `invoice_item` (`id`, `invoice_id`, `details`, `rate`, `quantity`, `
 --
 
 CREATE TABLE `menu` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `title` varchar(100) NOT NULL,
   `url` varchar(100) NOT NULL,
-  `parent_id` int(11) NOT NULL,
-  `depth` int(1) NOT NULL,
-  `sortorder` int(11) DEFAULT NULL,
+  `parent_id` int NOT NULL,
+  `depth` int NOT NULL,
+  `sortorder` int DEFAULT NULL,
   `icon` varchar(200) DEFAULT NULL,
-  `small_icon` varchar(200) CHARACTER SET latin1 DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `small_icon` varchar(200) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;
 
 --
 -- Dumping data for table `menu`
@@ -298,9 +299,9 @@ INSERT INTO `menu` (`id`, `title`, `url`, `parent_id`, `depth`, `sortorder`, `ic
 --
 
 CREATE TABLE `menu_2_admin_type` (
-  `menu_id` int(11) NOT NULL,
-  `admin_type_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `menu_id` int NOT NULL,
+  `admin_type_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `menu_2_admin_type`
@@ -400,16 +401,17 @@ INSERT INTO `menu_2_admin_type` (`menu_id`, `admin_type_id`) VALUES
 --
 
 CREATE TABLE `transaction` (
-  `id` int(11) NOT NULL,
-  `wing_id` int(11) DEFAULT NULL,
-  `account_id` int(11) NOT NULL,
-  `reference_id` int(1) NOT NULL DEFAULT '0',
-  `datetime_added` datetime NOT NULL,
+  `id` int NOT NULL,
+  `wing_id` int DEFAULT NULL,
+  `account_id` int NOT NULL,
+  `reference_id` int NOT NULL DEFAULT '0',
+  `code` varchar(50) NOT NULL,
+  `date_added` date NOT NULL,
   `amount` decimal(10,2) NOT NULL,
   `details` text NOT NULL,
   `cheque_number` varchar(50) NOT NULL,
-  `added_by` int(11) NOT NULL,
-  `status` int(11) NOT NULL DEFAULT '1',
+  `added_by` int NOT NULL DEFAULT '0',
+  `status` int NOT NULL DEFAULT '1',
   `ts` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -417,8 +419,11 @@ CREATE TABLE `transaction` (
 -- Dumping data for table `transaction`
 --
 
-INSERT INTO `transaction` (`id`, `wing_id`, `account_id`, `reference_id`, `datetime_added`, `amount`, `details`, `cheque_number`, `added_by`, `status`, `ts`) VALUES
-(1, 1, 2, 4, '2022-04-17 01:10:00', '500000.00', 'Stipend cost', '332323', 0, 1, '2022-06-04 11:36:50');
+INSERT INTO `transaction` (`id`, `wing_id`, `account_id`, `reference_id`, `code`, `date_added`, `amount`, `details`, `cheque_number`, `added_by`, `status`, `ts`) VALUES
+(1, 1, 2, 4, '12354', '2022-07-29', '500000.00', 'Stipend cost', '332323', 0, 1, '2022-07-16 08:53:47'),
+(2, 2, 2, 7, '21541-215412', '1970-01-01', '30000.00', 'Alhye Chaw', '12124', 0, 1, '2022-07-16 08:51:38'),
+(3, 0, 0, 0, '21541-215412', '2022-07-21', '20000.00', 'ALhye Chaw ', '23152', 0, 1, '2022-07-16 08:52:53'),
+(4, 0, 0, 0, '21541-215412', '2022-07-21', '20000.00', 'ALhye Chaw ', '23152', 0, 1, '2022-07-16 08:52:53');
 
 -- --------------------------------------------------------
 
@@ -427,10 +432,10 @@ INSERT INTO `transaction` (`id`, `wing_id`, `account_id`, `reference_id`, `datet
 --
 
 CREATE TABLE `uploads` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `filename` varchar(200) NOT NULL,
   `filelocation` varchar(200) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
@@ -439,11 +444,11 @@ CREATE TABLE `uploads` (
 --
 
 CREATE TABLE `wing` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `title` varchar(200) NOT NULL,
-  `status` int(1) NOT NULL DEFAULT '1',
+  `status` int NOT NULL DEFAULT '1',
   `ts` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `wing`
@@ -549,79 +554,79 @@ ALTER TABLE `wing`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `admin_type`
 --
 ALTER TABLE `admin_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `config_type`
 --
 ALTER TABLE `config_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `config_variable`
 --
 ALTER TABLE `config_variable`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `expense`
 --
 ALTER TABLE `expense`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `expense_category`
 --
 ALTER TABLE `expense_category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `invoice`
 --
 ALTER TABLE `invoice`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `invoice_item`
 --
 ALTER TABLE `invoice_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `uploads`
 --
 ALTER TABLE `uploads`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `wing`
 --
 ALTER TABLE `wing`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
