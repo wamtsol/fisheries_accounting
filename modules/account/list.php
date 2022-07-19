@@ -55,6 +55,7 @@ if(!defined("APP_START")) die("No Direct Access");
                 <th width="15%">Wing</th>
                 <th width="10%">Code</th>
                 <th width="25%">Major Head</th>
+                <th width="10%">Code</th>
                 <th>Sub Head</th>
                 <th width="12%" class="text-right">Budget Approved</th>
                 <th width="8%" class="text-center">Status</th>
@@ -79,6 +80,7 @@ if(!defined("APP_START")) die("No Direct Access");
                         <td><?php echo get_field($r["wing_id"], "wing", "title"); ?></td>
                         <td><?php echo unslash($r["code"]); ?></td>
                         <td><?php echo get_field($r["parent_id"], "account", "title"); ?></td>
+                        <td><?php echo unslash($r["code"]); ?></td>
                         <td><?php echo unslash($r["title"]); ?></td>
                         <td class="text-right"><?php echo unslash($r["balance"]); ?></td>
                         <td class="text-center">

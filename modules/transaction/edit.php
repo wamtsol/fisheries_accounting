@@ -93,8 +93,8 @@ if(!defined("APP_START")) die("No Direct Access");
     
     <div class="form-group">
         <div class="row">
-        	 <div class="col-sm-2 control-label">
-            	<label class="form-label" for="datetime_added">Date of Release</label>
+        	<div class="col-sm-2 control-label">
+            	<label class="form-label" for="title">Date </label>
             </div>
             <div class="col-sm-10">
                 <input type="text" title="Enter Date/Time" value="<?php echo $datetime_added; ?>" name="datetime_added" id="datetime_added" class="datepicker form-control" />
