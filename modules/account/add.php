@@ -43,6 +43,16 @@ else{
         </div>
   	</div>
     <div class="form-group">
+        <div class="row">
+        	<div class="col-sm-2 control-label">
+            	<label class="form-label" for="title">Code </label>
+            </div>
+            <div class="col-sm-10">
+                <input type="text" title="Enter The Code"  name="code" id="code" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
     	<div class="row">
             <div class="col-sm-2 control-label">
                 <label class="form-label" for="parent_id">Major Head</label>

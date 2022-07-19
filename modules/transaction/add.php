@@ -7,7 +7,7 @@ else{
 	$wing_id="";
     $account_id="";
 	$reference_id="";
-	$datetime_added=date("d/m/Y H:i A");
+	$datetime_added=date("d/m/Y");
 	$amount="";
     $details="";
     $cheque_number="";
@@ -47,6 +47,16 @@ else{
             </div>
         </div>
   	</div>
+  	<div class="form-group">
+        <div class="row">
+        	<div class="col-sm-2 control-label">
+            	<label class="form-label" for="title">Code </label>
+            </div>
+            <div class="col-sm-10">
+                <input type="text" title="Enter The Code"   name="code" id="code" class="form-control" />
+            </div>
+        </div>
+    </div>
     <div class="form-group">
     	<div class="row">
             <div class="col-sm-2 control-label">
@@ -91,13 +101,14 @@ else{
             </div>
         </div>
   	</div>
+    
     <div class="form-group">
         <div class="row">
         	 <div class="col-sm-2 control-label">
-            	<label class="form-label" for="datetime_added">Date of Release</label>
+            	<label class="form-label" for="date_added">Date of Release</label>
             </div>
             <div class="col-sm-10">
-                <input type="text" title="Enter Date/Time" value="<?php echo $datetime_added; ?>" name="datetime_added" id="datetime_added" class="form-control date-timepicker" />
+                <input type="text" title="Enter Date" name="datetime_added" id="datetime_added" value="<?php echo $datetime_added?>" class="form-control date-picker" />
             </div>
         </div>
     </div>

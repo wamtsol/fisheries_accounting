@@ -133,6 +133,15 @@ vertical-align: bottom;}
     font-size: 26px;
     font-weight: 300;
 }
+.text-right{
+  text-align:right;
+}
+.signcol{
+    height: 140px;
+    line-height: 22px;
+    vertical-align: bottom;
+}
+table{line-height: 24px;}
 </style>
 <div id="header">
     <div class="container">
@@ -153,18 +162,18 @@ vertical-align: bottom;}
 </div>
     <table border="1" width="1000px" cellpadding="10" cellspacing="10">
         <tr>                   
-          <td>Voucher No#</td>
-          <td>Cheque#</td>
-          <td>Branch Name:</td>
-          <td>NBP wapda colony Br Hyd</td>
-          <td>Date:</td>
+          <td width="20%">Voucher No: <?php echo unslash($r["voucher_no"])?></td>
+          <td width="20%">Cheque No: <?php echo unslash($r["cheque_number"])?></td>
+          <td width="15%">Branch Name:</td>
+          <td ><?php echo unslash($r["branch_name"])?></td>
+          <td width="15%">Date: <?php echo date_convert($r["cheque_date"])?></td>
         </tr>
         <tr>                   
-          <td colspan="6">Payee: M/s Haniya Enterprises.</td>
+          <td colspan="6">Payee: <?php echo unslash($r["payee"])?></td>
         </tr>
         <tr>                   
-          <td colspan="12">Payment of invoice No 0366 Dated: 24-01-2022 amounting to Rs: 90,000/= on account of payment of refreshment Boxes printed
-          in four color for disbursing in trainees of BBSHRRDB Phase-X|| Livestock & Fisheries Department (Fisheries Wring) Hyderabad.</td>
+          <td colspan="12">Payment of invoice No <?php echo unslash($r["voucher_no"])?> Dated: <?php echo date_convert($r["cheque_date"])?> amounting to Rs: <?php echo curr_format($r["amount"])?>/= on account of payment of refreshment Boxes printed
+          in four color for disbursing in trainees of BBSHRRDB Phase-X|| Livestock & Fisheries Department (<?php echo get_field($r["wing_id"], "wing", "title")?> Wing) Hyderabad.</td>
         </tr>
         <tr>                   
           <th colspan="2">Account Description</th>
@@ -173,14 +182,13 @@ vertical-align: bottom;}
           <th>Credit</th>
         </tr>
         <tr>                   
-          <td colspan="2">Head of Account: Misc Expenses (Training Cost)</td>
-          <td>A03821</td>
-          <td>Rs: 90,000/=</td>
+          <td colspan="2">Head of Account: <?php echo get_field($r["sub_head"], "account", "title")?> (<?php echo get_field($r["major_head"], "account", "title")?>)</td>
+          <td><?php echo get_field($r["sub_head"], "account", "code")?></td>
+          <td class="text-right">Rs: <?php echo curr_format($r["amount"])?>/=</td>
           <td></td>
         </tr>
         <tr>                   
-          <td colspan="2">Item detail: Payment of refreshment Boxes <br>printed in four color for disbursing in <br>trainees in BBSHRRDB Phase-X|| Livestock<br> &
-          Fisheries Department (Fisheries wing) Hyderabad.
+          <td colspan="2">Item detail: <?php echo unslash($r["details"])?>
           </td>
           <td rowspan="1"></td>
           <td rowspan="1"></td>
@@ -190,7 +198,7 @@ vertical-align: bottom;}
           <td colspan="2">Income Tax Payable (Deduction):</td>
           <td></td>
           <td></td>
-          <td>Rs: 4,050/=</td>
+          <td class="text-right">Rs: <?php echo curr_format($r["income_tax_deducted"])?>/=</td>
         </tr>
         <tr>                   
           <td colspan="2">General sales Tax Payable (Deduction):</td>
@@ -208,21 +216,21 @@ vertical-align: bottom;}
           <td colspan="2">Bank:</td>
           <td></td>
           <td></td>
-          <td>Rs: 85,950/=</td>
+          <td class="text-right">Rs: <?php echo curr_format($r["cheque_amount"])?>/=</td>
         </tr>
         <tr>                   
-          <th colspan="2">Total</th>
+          <th colspan="2" class="text-right">Total</th>
           <td></td>
-          <th>Rs: 90,000/=</th>
-          <th>Rs: 90,000/=</th>
+          <th class="text-right">Rs: <?php echo curr_format($r["amount"])?>/=</th>
+          <th class="text-right">Rs: <?php echo curr_format($r["cheque_amount"])?>/=</th>
         </tr>
         <tr>                   
-          <td colspan="12">In Words: Amount of Cheque Rupees: Eighty Five Thousand Nine Hundred Fifty only.</td>
+          <td colspan="12">In Words: Amount of Cheque Rupees: <?php echo convert_number_to_words($r["cheque_amount"])?>.</td>
         </tr>
         <tr>                   
-          <th rowspan="6">Prepared by <br> Accounts Officer <br> BBSHRRDB</th>
-          <th rowspan="6">Checked by <br> Dy. Project Director <br> BBSHRRDB</th>
-          <th rowspan="6">Approved by <br> Project Director <br>BBSHRRDB</th>
+          <th class="signcol" colspan="2">Prepared by <br> Accounts Officer <br> BBSHRRDB</th>
+          <th class="signcol" colspan="2">Checked by <br> Dy. Project Director <br> BBSHRRDB</th>
+          <th class="signcol">Approved by <br> Project Director <br>BBSHRRDB</th>
         </tr>
     </table>
 <?php

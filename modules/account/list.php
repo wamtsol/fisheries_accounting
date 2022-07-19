@@ -53,6 +53,7 @@ if(!defined("APP_START")) die("No Direct Access");
                     <input type="checkbox" id="select_all" value="0" title="Select All Records">
                     <label for="select_all"></label></div></th>
                 <th width="15%">Wing</th>
+                <th width="10%">Code</th>
                 <th width="25%">Major Head</th>
                 <th>Sub Head</th>
                 <th width="12%" class="text-right">Budget Approved</th>
@@ -76,9 +77,10 @@ if(!defined("APP_START")) die("No Direct Access");
                             <label for="<?php echo "rec_".$sn?>"></label></div>
                         </td>
                         <td><?php echo get_field($r["wing_id"], "wing", "title"); ?></td>
+                        <td><?php echo unslash($r["code"]); ?></td>
                         <td><?php echo get_field($r["parent_id"], "account", "title"); ?></td>
                         <td><?php echo unslash($r["title"]); ?></td>
-                        <td class="text-right"><?php echo get_account_balance(unslash($r["id"])); ?></td>
+                        <td class="text-right"><?php echo unslash($r["balance"]); ?></td>
                         <td class="text-center">
                             <a href="account_manage.php?id=<?php echo $r['id'];?>&tab=status&s=<?php echo ($r["status"]==0)?1:0;?>">
                                 <?php
@@ -105,8 +107,10 @@ if(!defined("APP_START")) die("No Direct Access");
                 }
                 ?>
                 <tr>
-                    <th colspan="5" class="text-right">Total</th>
+                    <th colspan="6" class="text-right">Total</th>
                     <th class="text-right"><?php echo $total?></th>
+                    <th></th>
+                    <th></th>
                 </tr>
                 <tr>
                     <td colspan="5" class="actions">
@@ -118,7 +122,7 @@ if(!defined("APP_START")) die("No Direct Access");
                         </select>
                         <input type="button" name="apply" value="Apply" id="apply_bulk_action" class="btn btn-light" title="Apply Action"  />
                     </td>
-                    <td colspan="3" class="paging" title="Paging" align="right"><?php echo pages_list($rows, "account", $sql, $pageNum)?></td>
+                    <td colspan="4" class="paging" title="Paging" align="right"><?php echo pages_list($rows, "account", $sql, $pageNum)?></td>
                 </tr>
                 <?php	
             }

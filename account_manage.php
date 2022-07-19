@@ -40,7 +40,7 @@ if($wing_id!=""){
 	$extra.=" and wing_id='".$wing_id."'";
 	$is_search=true;
 }
-$sql="select * from account where 1 $extra and parent_id!=0 order by title";
+$sql="select * from account where 1 $extra and parent_id!=0 order by parent_id";
 switch($tab){
 	case 'add':
 		include("modules/account/add_do.php");

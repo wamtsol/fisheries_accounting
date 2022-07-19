@@ -43,7 +43,7 @@ if(!defined("APP_START")) die("No Direct Access");
                             </tr>
                             <?php
                         }
-						$sql="select * from account order by title";
+						$sql="select * from account where parent_id!=0 order by title";
 						
 						$rs=doquery($sql, $dblink);
 						if( numrows($rs) > 0){

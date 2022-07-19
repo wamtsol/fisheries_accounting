@@ -5,6 +5,7 @@ if(isset($_SESSION["expense_manage"]["add"])){
 }
 else{
     $wing_id="";
+    $branch_name="";
 	$datetime_added=date("d/m/Y H:i A");
 	$voucher_no="";
 	$major_head="";
@@ -63,6 +64,7 @@ else{
             </div>
         </div>
     </div>
+    
     <div class="form-group">
         <div class="row">
         	<div class="col-sm-2 control-label">
@@ -70,6 +72,16 @@ else{
             </div>
             <div class="col-sm-10">
                 <input type="text" title="Enter Voucher" value="<?php echo $voucher_no; ?>" name="voucher_no" id="voucher_no" class="form-control" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="row">
+        	<div class="col-sm-2 control-label">
+            	<label class="form-label" for="branch_name">Branch Name </label>
+            </div>
+            <div class="col-sm-10">
+                <input type="text" title="Enter branch name" value="<?php echo $branch_name; ?>" name="branch_name" id="branch_name" class="form-control" />
             </div>
         </div>
     </div>
@@ -157,6 +169,7 @@ else{
             </div>
         </div>
     </div>
+    
     <div class="form-group">
         <div class="row">
         	<div class="col-sm-2 control-label">
@@ -207,4 +220,16 @@ else{
             </div>
         </div>
   	</div>  
+    
+      <script>
+        let amountID=document.getElementById("amount");
+        let income_taxID=document.getElementById("income_tax");
+                    
+        income_taxID.addEventListener("change",function(){
+            let persentage= ((amountID.value*income_taxID.value)/100).toString();
+            let amount =(amountID.value-persentage);
+            document.getElementById("income_tax_deducted").value = persentage;
+            document.getElementById("cheque_amount").value = amount;
+        });
+    </script>
 </form>

@@ -81,7 +81,7 @@ $(document).ready(function(){
 		});
 		$target_input.click();
 	});
-	if($(".select_multiple").length>0) $(".select_multiple").chosen();
+	if($(".select_multiple").length>0) $(".select_multiple").chosen({ search_contains: true });
 	
 	$("#select_all").change(function(){
 		var chckedstatus=this.checked;

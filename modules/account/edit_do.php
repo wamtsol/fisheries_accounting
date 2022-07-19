@@ -6,7 +6,7 @@ if(isset($_POST["account_edit"])){
 	if(empty($title))
 		$err="Fields with (*) are Mandatory.<br />";
 	if($err==""){
-		$sql="Update account set `title`='".slash($title)."', `wing_id`='".slash($wing_id)."', `parent_id`='".slash($parent_id)."', `balance`='".slash($balance)."' where id='".$id."'";
+		$sql="Update account set `code`='".slash($code)."',`title`='".slash($title)."', `wing_id`='".slash($wing_id)."', `parent_id`='".slash($parent_id)."', `balance`='".slash($balance)."' where id='".$id."'";
 		doquery($sql,$dblink);
 		unset($_SESSION["account_manage"]["edit"]);
 		header('Location: account_manage.php?tab=list&msg='.url_encode("Successfully Updated"));
