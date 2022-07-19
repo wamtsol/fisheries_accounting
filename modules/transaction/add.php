@@ -85,14 +85,14 @@ else{
                 <label class="form-label" for="reference_id">Sub Head <span class="manadatory">*</span></label>
             </div>
             <div class="col-sm-10">
-            	<select name="reference_id" id="reference_id" title="Choose Option">
+            	<select name="reference_id" id="reference_id" class="select_multiple" title="Choose Option">
                     <option value="0">Select Sub Head</option>
                     <?php
                     $res=doquery("select * from account where status = 1 and parent_id !=0 order by title",$dblink);
                     if(numrows($res)>0){
                         while($rec=dofetch($res)){
                         ?>
-                        <option value="<?php echo $rec["id"]?>"<?php echo($reference_id==$rec["id"])?"selected":"";?>><?php echo unslash($rec["title"]); ?></option>
+                        <option value="<?php echo $rec["id"]?>"<?php echo($reference_id==$rec["id"])?"selected":"";?>><?php echo unslash($rec["title"])." (".get_field($rec["wing_id"], "wing", "title").")"; ?></option>
                      	<?php			
                         }			
                     }
