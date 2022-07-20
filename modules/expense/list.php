@@ -52,14 +52,14 @@ if(!defined("APP_START")) die("No Direct Access");
                     </select>
                 </div>
                 <div class="col-sm-2 margin-btm-5">
-                	<select name="sub_head" id="sub_head" title="Choose Option">
+                	<select name="sub_head" id="sub_head" class="select_multiple" title="Choose Option">
                         <option value=""<?php echo ($sub_head=="")? " selected":"";?>>Sub Head</option>
                         <?php
                             $res=doquery("select * from account where status = 1 and parent_id !=0 order by title",$dblink);
                             if(numrows($res)>=0){
                                 while($rec=dofetch($res)){
                                 ?>
-                                <option value="<?php echo $rec["id"]?>" <?php echo($sub_head==$rec["id"])?"selected":"";?>><?php echo unslash($rec["title"])?></option>
+                                <option value="<?php echo $rec["id"]?>" <?php echo($sub_head==$rec["id"])?"selected":"";?>><?php echo unslash($rec["title"])." (".get_field($rec["wing_id"], "wing", "title").")"; ?></option>
                             	<?php
                                 }
                             }	

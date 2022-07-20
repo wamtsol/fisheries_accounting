@@ -149,12 +149,12 @@ if(!defined("APP_START")) die("No Direct Access");
                 }
                 ?>
                 <tr>
-                    <th colspan="6" class="text-right">Total:</th>
+                    <th colspan="7" class="text-right">Total:</th>
                     <th class="text-right"><?php echo curr_format($total_amount);?></th>
                     <th colspan="4"></th>
                 </tr>
                 <tr>
-                    <td colspan="7" class="actions">
+                    <td colspan="8" class="actions">
                         <select name="bulk_action" class="" id="bulk_action" title="Choose Action">
                             <option value="null">Bulk Action</option>
                             <option value="delete">Delete</option>
@@ -170,7 +170,7 @@ if(!defined("APP_START")) die("No Direct Access");
             else{	
                 ?>
                 <tr>
-                    <td colspan="11"  class="no-record">No Result Found</td>
+                    <td colspan="12"  class="no-record">No Result Found</td>
                 </tr>
                 <?php
             }
