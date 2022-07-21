@@ -77,7 +77,7 @@ if($wing_id!=""){
 	$extra.=" and wing_id='".$wing_id."'";
 	$is_search=true;
 }
-$sql="select * from expense where 1 $extra order by datetime_added asc";
+$sql="select * from expense where 1 $extra order by voucher_no asc";
 
 switch($tab){
 	case 'add':

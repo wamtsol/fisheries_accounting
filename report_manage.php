@@ -6,7 +6,7 @@ include("include/paging.php");
 define("APP_START", 1);
 $filename = 'report_manage.php';
 include("include/admin_type_access.php");
-$tab_array=array("general_journal", "general_journal_print", "balance_sheet", "income", "income_print","csv_general", "expenditure_statement");
+$tab_array=array("general_journal", "general_journal_print", "balance_sheet", "income", "income_print","csv_general", "expenditure_statement", "expenditure_statement_print");
 if(isset($_REQUEST["tab"]) && in_array($_REQUEST["tab"], $tab_array)){
 	$tab=$_REQUEST["tab"];
 }
@@ -28,6 +28,9 @@ switch($tab){
 	break;
 	case 'expenditure_statement':
 		include("modules/reports/expenditure_statement_do.php");
+	break;
+	case 'expenditure_statement_print':
+		include("modules/reports/expenditure_statement_print.php");
 	break;
 }
 ?>

@@ -172,8 +172,9 @@ table{line-height: 24px;}
           <td colspan="6">Payee: <?php echo unslash($r["payee"])?></td>
         </tr>
         <tr>                   
-          <td colspan="12">Payment of invoice No <?php echo unslash($r["voucher_no"])?> Dated: <?php echo date_convert($r["cheque_date"])?> amounting to Rs: <?php echo curr_format($r["amount"])?>/= on account of payment of refreshment Boxes printed
-          in four color for disbursing in trainees of BBSHRRDB Phase-X|| Livestock & Fisheries Department (<?php echo get_field($r["wing_id"], "wing", "title")?> Wing) Hyderabad.</td>
+          <!-- <td colspan="12">Payment of invoice No <?php echo unslash($r["voucher_no"])?> Dated: <?php echo date_convert($r["cheque_date"])?> amounting to Rs: <?php echo curr_format($r["amount"])?>/= on account of payment of refreshment Boxes printed
+          in four color for disbursing in trainees of BBSHRRDB Phase-X|| Livestock & Fisheries Department (<?php echo get_field($r["wing_id"], "wing", "title")?> Wing) Hyderabad.</td> -->
+          <td colspan="12"><?php echo unslash($r["details"])?></td>
         </tr>
         <tr>                   
           <th colspan="2">Account Description</th>
@@ -222,7 +223,7 @@ table{line-height: 24px;}
           <th colspan="2" class="text-right">Total</th>
           <td></td>
           <th class="text-right">Rs: <?php echo curr_format($r["amount"])?>/=</th>
-          <th class="text-right">Rs: <?php echo curr_format($r["cheque_amount"])?>/=</th>
+          <th class="text-right">Rs: <?php echo curr_format($r["amount"])?>/=</th>
         </tr>
         <tr>                   
           <td colspan="12">In Words: Amount of Cheque Rupees: <?php echo convert_number_to_words($r["cheque_amount"])?>.</td>

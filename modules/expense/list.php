@@ -89,6 +89,7 @@ if(!defined("APP_START")) die("No Direct Access");
                     <input type="checkbox" id="select_all" value="0" title="Select All Records">
                     <label for="select_all"></label></div></th>
                 <th width="10%">Date/Time</th>
+                <th width="8%">Voucher #</th>
                 <th width="13%">Major Head</th>
                 <th width="12%">Sub Head</th>
                 <th width="20%">Details</th>
@@ -115,6 +116,7 @@ if(!defined("APP_START")) die("No Direct Access");
                             <label for="<?php echo "rec_".$sn?>"></label></div>
                         </td>
                         <td><?php echo datetime_convert($r["datetime_added"]); ?></td>
+                        <td><?php echo unslash($r["voucher_no"]); ?></td>
                         <td><?php echo get_field( unslash($r["major_head"]), "account", "title" ); ?></td>
                         <td><?php echo get_field( unslash($r["sub_head"]), "account", "title" ); ?></td>
                         <td><?php echo unslash($r["details"]); ?></td>
@@ -148,12 +150,12 @@ if(!defined("APP_START")) die("No Direct Access");
                 }
                 ?>
                 <tr>
-                    <th colspan="6" class="text-right">Total:</th>
+                    <th colspan="7" class="text-right">Total:</th>
                     <th class="text-right"><?php echo curr_format($total_amount);?></th>
                     <th colspan="4"></th>
                 </tr>
                 <tr>
-                    <td colspan="6" class="actions">
+                    <td colspan="7" class="actions">
                         <select name="bulk_action" class="" id="bulk_action" title="Choose Action">
                             <option value="null">Bulk Action</option>
                             <option value="delete">Delete</option>
@@ -169,7 +171,7 @@ if(!defined("APP_START")) die("No Direct Access");
             else{	
                 ?>
                 <tr>
-                    <td colspan="12"  class="no-record">No Result Found</td>
+                    <td colspan="13"  class="no-record">No Result Found</td>
                 </tr>
                 <?php
             }
