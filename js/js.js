@@ -152,7 +152,36 @@ $(document).ready(function(){
 		}
 	});
 	$("select.select_supplier").chosen({width: "100%"});
-	
+	$(".sub_head").change(function(){
+		$val=$(this).find('option:selected').val();
+		var $container=$(this).parents(".main_cont");
+		if (($('#transaction_id').length > 0)){
+			$transId=$('#transaction_id').val();
+		}
+		else
+			$transId=0;
+		if($val>0){
+			$.get("transaction_manage.php", {"tab":"get_code","id":$val ,'transcationid':$transId}, function($code){
+				$container.find(".code").val($code);
+				//update_total($container);
+			});
+		}
+	})
+	$(".sub_head_exp").change(function(){
+		$val=$(this).find('option:selected').val();
+		var $container=$(this).parents(".main_cont_exp");
+		if (($('#transaction_id').length > 0)){
+			$transId=$('#transaction_id').val();
+		}
+		else
+			$transId=0;
+		if($val>0){
+			$.get("expense_manage.php", {"tab":"get_code","id":$val ,'transcationid':$transId}, function($code){
+				$container.find(".code").val($code);
+				//update_total($container);
+			});
+		}
+	})
 	if($(".item_select").length>0){
 		var $type = $(".item_select").first().data( "type" );
 		$clone_container = $("."+$type);

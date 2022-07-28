@@ -6,7 +6,7 @@ include("include/paging.php");
 define("APP_START", 1);
 $filename = 'transaction_manage.php';
 include("include/admin_type_access.php");
-$tab_array=array("list", "add", "edit", "status", "delete", "bulk_action", "report", "csv_report");
+$tab_array=array("list", "add", "edit", "status", "delete", "bulk_action", "report", "csv_report", "get_code");
 if(isset($_REQUEST["tab"]) && in_array($_REQUEST["tab"], $tab_array)){
 	$tab=$_REQUEST["tab"];
 }
@@ -100,6 +100,24 @@ switch($tab){
 	break;
 	case 'csv_report':
 		include("modules/transaction/report_csv.php");
+	break;
+	case "get_code":
+		if(isset($_GET["id"])){
+			$not_found = true;
+			if(isset($_GET['transcationid']) && $_GET['transcationid'] > 0){
+				$getCode=doquery("select code from transaction where reference_id='".slash($_GET["id"])."' and id = '".slash($_GET[ "transcationid" ])."'", $dblink);
+				if(numrows($getCode) > 0){
+					$not_found = false;
+					$getCode=dofetch($getCode);	
+					echo $getCode['code'];
+				}
+			}
+			if($not_found){
+			  $r=dofetch(doquery("select code from account where id='".slash($_GET["id"])."'", $dblink));
+				echo $r["code"];
+			}
+		}
+		die;
 	break;
 }
 ?>

@@ -94,7 +94,7 @@ if(!defined("APP_START")) die("No Direct Access");
                 <th width="12%">Sub Head</th>
                 <th width="20%">Details</th>
                 <th width="8%" class="text-right">Amount</th>
-                <th width="10%">Cheque Number</th>
+                <th width="10%" class="text-right">Cheque Number</th>
                 <th width="10%">Added By</th>
                 <th width="5%" class="text-center">Status</th>
                 <th width="12%" class="text-center">Actions</th>
@@ -121,7 +121,7 @@ if(!defined("APP_START")) die("No Direct Access");
                         <td><?php echo get_field( unslash($r["sub_head"]), "account", "title" ); ?></td>
                         <td><?php echo unslash($r["details"]); ?></td>
                         <td class="text-right"><?php echo curr_format(unslash($r["amount"])); ?></td>
-                        <td><?php echo unslash($r["cheque_number"]); ?></td>
+                        <td class="text-right"><?php echo unslash($r["cheque_number"]); ?></td>
                         <td><?php echo get_field( unslash($r["added_by"]), "admin", "username" ); ?></td>
                         <td class="text-center">
                             <a href="expense_manage.php?id=<?php echo $r['id'];?>&tab=status&s=<?php echo ($r["status"]==0)?1:0;?>">

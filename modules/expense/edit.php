@@ -12,8 +12,8 @@ if(!defined("APP_START")) die("No Direct Access");
     	<div class="btn-group" role="group" aria-label="..."> <a href="expense_manage.php" class="btn btn-light editproject">Back to List</a> </div>
   	</div>
 </div>        	
-<form class="form-horizontal form-horizontal-left" role="form" action="expense_manage.php?tab=edit" method="post" enctype="multipart/form-data" name="frmAdd">
-    <input type="hidden" name="id" value="<?php echo $id;?>">
+<form class="form-horizontal form-horizontal-left main_cont_exp" role="form" action="expense_manage.php?tab=edit" method="post" enctype="multipart/form-data" name="frmAdd">
+    <input type="hidden" name="id" value="<?php echo $id;?>" id="transaction_id" />
     <div class="form-group">
     	<div class="row">
             <div class="col-sm-2 control-label">
@@ -59,6 +59,16 @@ if(!defined("APP_START")) die("No Direct Access");
     <div class="form-group">
         <div class="row">
         	<div class="col-sm-2 control-label">
+            	<label class="form-label" for="code">Code </label>
+            </div>
+            <div class="col-sm-10">
+                <input type="text" title="Enter Code" value="<?php echo $code; ?>" name="code" id="code" class="form-control code" />
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="row">
+        	<div class="col-sm-2 control-label">
             	<label class="form-label" for="branch_name">Branch Name </label>
             </div>
             <div class="col-sm-10">
@@ -94,7 +104,7 @@ if(!defined("APP_START")) die("No Direct Access");
                 <label class="form-label" for="sub_head">Sub Head <span class="manadatory">*</span></label>
             </div>
             <div class="col-sm-10">
-            	<select name="sub_head" id="sub_head" class="select_multiple" title="Choose Option">
+            	<select name="sub_head" id="sub_head" class="select_multiple sub_head_exp" title="Choose Option">
                     <option value="0">Select Sub Head</option>
                     <?php
                     $res=doquery("select * from account where status = 1 and parent_id !=0 order by title",$dblink);

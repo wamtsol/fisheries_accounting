@@ -24,7 +24,7 @@ else{
     	<div class="btn-group" role="group" aria-label="..."> <a href="transaction_manage.php" class="btn btn-light editproject">Back to List</a> </div>
   	</div>
 </div>
-<form class="form-horizontal form-horizontal-left" role="form" action="transaction_manage.php?tab=add" method="post" enctype="multipart/form-data" name="frmAdd" >
+<form class="form-horizontal form-horizontal-left main_cont" role="form" action="transaction_manage.php?tab=add" method="post" enctype="multipart/form-data" name="frmAdd" >
     <div class="form-group">
     	<div class="row">
             <div class="col-sm-2 control-label">
@@ -53,7 +53,7 @@ else{
             	<label class="form-label" for="title">Code </label>
             </div>
             <div class="col-sm-10">
-                <input type="text" title="Enter The Code"   name="code" id="code" class="form-control" />
+                <input type="text" title="Enter The Code" name="code" id="code" class="form-control code" />
             </div>
         </div>
     </div>
@@ -85,7 +85,7 @@ else{
                 <label class="form-label" for="reference_id">Sub Head <span class="manadatory">*</span></label>
             </div>
             <div class="col-sm-10">
-            	<select name="reference_id" id="reference_id" class="select_multiple" title="Choose Option">
+            	<select name="reference_id" id="reference_id" class="select_multiple sub_head" title="Choose Option">
                     <option value="0">Select Sub Head</option>
                     <?php
                     $res=doquery("select * from account where status = 1 and parent_id !=0 order by title",$dblink);

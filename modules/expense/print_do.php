@@ -32,7 +32,7 @@ table {
 </style>
 <table width="100%" cellspacing="0" cellpadding="0">
 <tr class="head">
-	<th colspan="9">
+	<th colspan="11">
         <h2>Bank Payment Voucher List</h2>
         <p>
         	<?php
@@ -54,14 +54,17 @@ table {
     </th>
 </tr>
 <tr>
-    <th width="5%" align="center">S.no</th>
-    <th width="10%">Date/Time</th>
+    <th width="3%" align="center">S.no</th>
+    <th width="12%">Date</th>
+    <th width="10%">Payee</th>
+    <th width="10%">NTN No</th>
     <th width="13%">Major Head</th>
     <th width="12%">Sub Head</th>
     <th width="20%">Details</th>
-    <th width="8%" class="text-right">Amount</th>
-    <th width="10%">Cheque Number</th>
-    <th width="15%">Added By</th>
+    <th width="10%" class="text-right">Bill Amount</th>
+    <th width="8%" class="text-right">I.Tax</th>
+    <th width="8%" class="text-right">Ch.No</th>
+    <th width="10%">Ch.Date</th>
 </tr>
 <?php
 if( numrows( $rs ) > 0 ) {
@@ -73,19 +76,23 @@ if( numrows( $rs ) > 0 ) {
 		<tr>
         	<td align="center"><?php echo $sn++?></td>
             <td><?php echo datetime_convert($r["datetime_added"]); ?></td>
-            <td><?php echo get_field( unslash($r["major_head"]), "account", "title" ); ?></td>
-            <td><?php echo get_field( unslash($r["sub_head"]), "account", "title" ); ?></td>
+            <td><?php echo unslash($r["payee"]); ?></td>
+            <td><?php echo unslash($r["code"]); ?></td>
+            <td><?php echo get_field($r["major_head"], "account", "title" ); ?></td>
+            <td><?php echo get_field($r["sub_head"], "account", "title" ); ?></td>
             <td><?php echo unslash($r["details"]); ?></td>
-            <td class="text-right"><?php echo curr_format(unslash($r["amount"])); ?></td>
-            <td><?php echo unslash($r["cheque_number"]); ?></td>
-            <td><?php echo get_field( unslash($r["added_by"]), "admin", "username" ); ?></td>
+            <td class="text-right"><?php echo curr_format($r["amount"]); ?></td>
+            <td class="text-right"><?php echo curr_format($r["income_tax"]); ?></td>
+            <td class="text-right"><?php echo unslash($r["cheque_number"]); ?></td>
+            <td><?php echo date_convert($r["cheque_date"]); ?></td>
         </tr>
 		<?php
 	}
 	?>
     <tr>
-        <td colspan="5">Total</td>
-        <th><?php echo curr_format($total)?></th>
+        <td colspan="7" class="text-right">Total</td>
+        <th class="text-right"><?php echo curr_format($total)?></th>
+        <th></th>
         <th></th>
         <th></th>
     </tr>

@@ -68,7 +68,7 @@ if(!defined("APP_START")) die("No Direct Access");
             if(numrows($rs)>0){
                 $sn=1;
                 while($r=dofetch($rs)){      
-                    $total += get_account_balance($r["id"]);
+                    $total += $r["balance"];
                     ?>
                     <tr>
                         <td class="text-center"><?php echo $sn;?></td>
@@ -80,7 +80,7 @@ if(!defined("APP_START")) die("No Direct Access");
                         <td><?php echo unslash($r["code"]); ?></td>
                         <td><?php echo get_field($r["parent_id"], "account", "title"); ?></td>
                         <td><?php echo unslash($r["title"]); ?></td>
-                        <td class="text-right"><?php echo unslash($r["balance"]); ?></td>
+                        <td class="text-right"><?php echo curr_format($r["balance"]); ?></td>
                         <td class="text-center">
                             <a href="account_manage.php?id=<?php echo $r['id'];?>&tab=status&s=<?php echo ($r["status"]==0)?1:0;?>">
                                 <?php
@@ -108,7 +108,7 @@ if(!defined("APP_START")) die("No Direct Access");
                 ?>
                 <tr>
                     <th colspan="6" class="text-right">Total</th>
-                    <th class="text-right"><?php echo $total?></th>
+                    <th class="text-right"><?php echo curr_format($total)?></th>
                     <th></th>
                     <th></th>
                 </tr>
