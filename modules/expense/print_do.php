@@ -82,7 +82,7 @@ if( numrows( $rs ) > 0 ) {
             <td><?php echo get_field($r["sub_head"], "account", "title" ); ?></td>
             <td><?php echo unslash($r["details"]); ?></td>
             <td class="text-right"><?php echo curr_format($r["amount"]); ?></td>
-            <td class="text-right"><?php echo curr_format($r["income_tax"]); ?></td>
+            <td class="text-right"><?php echo curr_format($r["income_tax_deducted"]); ?></td>
             <td class="text-right"><?php echo unslash($r["cheque_number"]); ?></td>
             <td><?php echo date_convert($r["cheque_date"]); ?></td>
         </tr>
