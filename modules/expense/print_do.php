@@ -69,9 +69,10 @@ table {
 <?php
 if( numrows( $rs ) > 0 ) {
 	$sn = 1;
-	$total = 0;
+	$total = $income_tax_total = 0;
 	while( $r = dofetch( $rs ) ) {
 	    $total += $r["amount"];
+        $income_tax_total += $r["income_tax_deducted"];
 		?>
 		<tr>
         	<td align="center"><?php echo $sn++?></td>
@@ -92,7 +93,7 @@ if( numrows( $rs ) > 0 ) {
     <tr>
         <td colspan="7" class="text-right">Total</td>
         <th class="text-right"><?php echo curr_format($total)?></th>
-        <th></th>
+        <th class="text-right"><?php echo curr_format($income_tax_total)?></th>
         <th></th>
         <th></th>
     </tr>
