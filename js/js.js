@@ -182,6 +182,21 @@ $(document).ready(function(){
 			});
 		}
 	})
+	$(".vedor_data").change(function(){
+		$val=$(this).find('option:selected').val();
+		var $container=$(this).parents(".main_cont_exp");
+		if (($('#vendor_id').length > 0)){
+			$vdId=$('#vendor_id').val();
+		}
+		else
+			$vdId=0;
+		if($val>0){
+			$.get("expense_manage.php", {"tab":"get_vendor","id":$val ,'transcationid':$vdId}, function($code){
+				$container.find(".incom_tax").val($code);
+				//update_total($container);
+			});
+		}
+	})
 	if($(".item_select").length>0){
 		var $type = $(".item_select").first().data( "type" );
 		$clone_container = $("."+$type);

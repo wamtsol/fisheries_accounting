@@ -14,6 +14,8 @@ if(!defined("APP_START")) die("No Direct Access");
 </div>        	
 <form class="form-horizontal form-horizontal-left main_cont_exp" role="form" action="expense_manage.php?tab=edit" method="post" enctype="multipart/form-data" name="frmAdd">
     <input type="hidden" name="id" value="<?php echo $id;?>" id="transaction_id" />
+    <input type="hidden" name="id" value="<?php echo $id;?>" id="vendor_id" />
+
     <div class="form-group">
     	<div class="row">
             <div class="col-sm-2 control-label">
@@ -112,6 +114,28 @@ if(!defined("APP_START")) die("No Direct Access");
                         while($rec=dofetch($res)){
                         ?>
                         <option value="<?php echo $rec["id"]?>"<?php echo($sub_head==$rec["id"])?"selected":"";?>><?php echo unslash($rec["title"])." (".get_field($rec["wing_id"], "wing", "title").")"; ?></option>
+                     	<?php			
+                        }			
+                    }
+                    ?>
+                </select>
+            </div>
+        </div>
+  	</div>
+      <div class="form-group">
+    	<div class="row">
+            <div class="col-sm-2 control-label">
+                <label class="form-label" for="vendor_head">Vendor<span class="manadatory">*</span></label>
+            </div>
+            <div class="col-sm-10">
+            	  <select name="vendor" title="Choose Option">
+                    <option value="0">Select Vendor</option>
+                    <?php
+                    $res=doquery("select * from vendor where status = 1 order by vendor",$dblink);
+                    if(numrows($res)>0){
+                        while($rec=dofetch($res)){
+                        ?>
+                        <option value="<?php echo $rec["id"]?>"<?php echo($vendor==$rec["id"])?"selected":"";?>><?php echo unslash($rec["vendor"]); ?></option>
                      	<?php			
                         }			
                     }

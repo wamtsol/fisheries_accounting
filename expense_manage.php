@@ -122,6 +122,25 @@ switch($tab){
 		}
 		die;
 	break;
+	case "get_vendor":
+		if(isset($_GET["id"])){
+			$not_found = true;
+			if(isset($_GET['transcationid']) && $_GET['transcationid'] > 0){
+				$getCode=doquery("select incom_tax from expense where vendor='".slash($_GET["id"])."' and id = '".slash($_GET[ "transcationid" ])."'", $dblink);
+				if(numrows($getCode) > 0){
+					$not_found = false;
+					$getCode=dofetch($getCode);	
+					echo $getCode['code'];
+				}
+			}
+			if($not_found){
+				$r=dofetch(doquery("select incom_tax from vendor where id='".slash($_GET["id"])."'", $dblink));
+				echo $r["code"];
+			}
+		}
+		die;
+	break;
+	
 }
 ?>
 <?php include("include/header.php");?>
