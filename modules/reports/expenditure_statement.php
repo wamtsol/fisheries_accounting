@@ -68,7 +68,7 @@ if(!defined("APP_START")) die("No Direct Access");
                 
                 while($r = dofetch($rs)){
                     // print_r($r);
-                $sub_heads = doquery("select a.*, b.amount as releases, c.amount as expenditure from account a left join transaction b on a.id = b.reference_id left join expense c on a.id = c.sub_head where a.status = 1 and parent_id = '".$r["id"]."'", $dblink);
+                $sub_heads = doquery("select a.*, b.amount as releases, c.amount as expenditure from account a left join transaction b on a.id = b.reference_id left join expense c on a.id = c.sub_head where a.status = 1 and parent_id = '".$r["id"]."' group by title", $dblink);
 				?>
 				<tr>
                 	<td></td>
